@@ -1,0 +1,48 @@
+/* styles.css */
+
+/* Style pour la section de recherche avec image d'arrière-plan */
+.bg-gradient-to-r {
+  background-image: url('./img1.png'); /* Remplacez par le chemin de votre image */
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+/* Superposition sombre pour améliorer la lisibilité du texte sur l'image */
+.bg-gradient-to-r::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Overlay noir semi-transparent */
+  z-index: 1;
+}
+
+/* Assure que le contenu est au-dessus de l'overlay */
+.bg-gradient-to-r > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Ajoute une ombre au texte du titre pour une meilleure lisibilité */
+.text-white {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Animation pour le bouton de recherche */
+.bg-blue-600 {
+  transition: all 0.3s ease;
+}
+
+.bg-blue-600:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Focus pour les inputs */
+input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}

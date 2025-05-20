@@ -1,0 +1,78 @@
+/* src/components/LoginForm.module.css */
+
+.loginContainer {
+  max-width: 400px;
+  margin: 60px auto;
+  padding: 30px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 100, 180, 0.15);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.title {
+  text-align: center;
+  color: #0066cc;
+  margin-bottom: 25px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin: 10px 0 5px;
+  color: #333;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+input:focus {
+  outline: none;
+  border-color: #00aaff;
+  box-shadow: 0 0 5px rgba(0, 170, 255, 0.3);
+}
+
+.loginButton {
+  background-color: #00aaff;
+  color: white;
+  border: none;
+  padding: 12px;
+  margin-top: 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.loginButton:hover {
+  background-color: #008ecc;
+}
+
+.links {
+  text-align: right;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.links a {
+  color: #00aaff;
+  text-decoration: none;
+}
+
+.signupPrompt {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.signupPrompt a {
+  color: #0066cc;
+  font-weight: bold;
+  text-decoration: none;
+}
