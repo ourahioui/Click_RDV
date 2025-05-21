@@ -1,0 +1,173 @@
+/* App.module.css */
+.app {
+  font-family: Arial, sans-serif;
+}
+
+.topBanner {
+  background-color: #2AA7FF;
+  color: white;
+  text-align: center;
+  padding: 5px 0;
+  font-size: 14px;
+}
+
+.heroSection {
+  padding: 50px 0;
+}
+
+.subtitle {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.mainTitle {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.highlight {
+  color: #2AA7FF;
+}
+
+.heroImage {
+  border-radius: 8px;
+}
+
+.searchSection {
+  background-color: #f8f9fa;
+  padding: 40px 0;
+  margin-bottom: 40px;
+}
+
+.searchForm {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.formInput {
+  border: 1px solid #e0e0e0;
+  padding: 10px 15px;
+}
+
+.iconContainer {
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-right: none;
+}
+
+.searchButton {
+  background-color: #2AA7FF;
+  border: none;
+  width: 100%;
+  padding: 10px;
+}
+
+.searchButton:hover {
+  background-color: #1d97ea;
+}
+
+.sectionTitle {
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
+.specializationsSection {
+  padding: 40px 0;
+}
+
+.specializationCard {
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s;
+  height: 100%;
+  cursor: pointer;
+}
+
+.specializationCard:hover {
+  transform: translateY(-5px);
+}
+
+.iconCircle {
+  width: 70px;
+  height: 70px;
+  background-color: #f0f9ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px;
+}
+
+.specIcon {
+  color: #2AA7FF;
+  font-size: 26px;
+}
+
+.specTitle {
+  font-size: 16px;
+  color: #555;
+}
+
+.viewMoreButton {
+  background-color: #2AA7FF;
+  border: none;
+  padding: 8px 25px;
+  border-radius: 5px;
+}
+
+.viewMoreButton:hover {
+  background-color: #1d97ea;
+}
+
+.specialistsSection {
+  padding: 50px 0;
+}
+
+.faqSection {
+  padding: 50px 0;
+  background-color: #f8f9fa;
+}
+
+.sectionSubtitle {
+  color: #444;
+  font-size: 24px;
+}
+
+.statsCard {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 100%;
+}
+
+.statsOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  width: 100%;
+}
+
+.statsNumber {
+  color: #2AA7FF;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.statsText {
+  color: #666;
+  margin-bottom: 0;
+}
+
+.faqList {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
