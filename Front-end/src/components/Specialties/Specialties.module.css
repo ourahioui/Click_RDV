@@ -1,0 +1,112 @@
+.specialties {
+  padding: 4rem 0;
+  background-color: #f5f5f5;
+}
+
+.sectionTitle {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #1e3a5f;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.specialtyCard {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+  height: 100%;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.specialtyIcon {
+  color: #2AA7FF;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.specialtyName {
+  font-size: 1.1rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.viewAllButton {
+  background-color: #2AA7FF;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0.75rem 2rem;
+  font-weight: 500;
+  margin-top: 2rem;
+  
+  &:hover {
+    background-color: darken(#2AA7FF, 10%);
+  }
+}
+
+@media (max-width: 767.98px) {
+  .specialties {
+    padding: 3rem 0;
+  }
+  
+  .sectionTitle {
+    font-size: 1.75rem;
+    margin-bottom: 2rem;
+  }
+}
+
+/* // Ajout de media queries pour assurer la responsivité */
+@media (max-width: 991.98px) {
+  .specialties {
+    padding: 3rem 0;
+  }
+  
+  .sectionTitle {
+    font-size: 2rem;
+  }
+  
+  .specialtyCard {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .specialties {
+    padding: 2.5rem 0;
+  }
+  
+  .sectionTitle {
+    font-size: 1.75rem;
+    margin-bottom: 2rem;
+  }
+  
+  .specialtyIcon {
+    font-size: 2.5rem;
+  }
+  
+  .specialtyName {
+    font-size: 1rem;
+  }
+  
+  .viewAllButton {
+    padding: 0.6rem 1.5rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .specialties {
+    padding: 2rem 0;
+  }
+  
+  .sectionTitle {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+}
