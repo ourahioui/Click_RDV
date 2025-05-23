@@ -1,6 +1,6 @@
 // UserRegistrationForm.jsx
 import React, { useState } from 'react';
-import styles from './RegisterFormUser.css';
+import styles from './RegisterFormUser.module.css';
 // import { ReactComponent as MedicalIcon } from './medical-icon.svg';
 import { FiUser, FiMail, FiPhone, FiLock, FiCalendar, FiArrowRight } from 'react-icons/fi';
 import {useNavigate} from 'react-router-dom' ;

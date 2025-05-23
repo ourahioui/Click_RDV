@@ -1,0 +1,185 @@
+.hero {
+  padding: 4rem 0;
+  background-color: #f5f5f5;
+  position:relative;
+  overflow: hidden;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+}
+
+.heroTitle {
+  font-size: 1.25rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.mainTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #333;
+  
+  span {
+    color: #2AA7FF;
+  }
+}
+
+.searchBox {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  height: 300px;
+  margin: auto;
+  width: 80%;
+}
+
+.searchTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #333;
+  text-align: center;
+}
+
+.searchInput {
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+  padding: 0.75rem 1rem;
+  padding-left: 2.5rem;
+  margin-top: 30px;
+  position: relative;
+  
+  &:focus {
+    border-color: #2AA7FF;
+    box-shadow: 0 0 0 0.25rem rgba(42, 167, 255, 0.25);
+  }
+}
+
+.inputIcon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  z-index: 1;
+}
+
+.searchButton {
+  background-color: #2AA7FF;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  width: 100%;
+  margin-top: 30px;
+  
+  &:hover {
+    background-color: darken(#2AA7FF, 10%);
+  }
+}
+
+.doctorImage {
+  max-width: 100%;
+  height: auto;
+}
+
+.carouselIndicators {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+  
+  .indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ddd;
+    margin: 0 5px;
+    cursor: pointer;
+    
+    &.active {
+      background-color: #2AA7FF;
+    }
+  }
+}
+
+@media (max-width: 991.98px) {
+  .hero {
+    padding: 3rem 0;
+  }
+  
+  .mainTitle {
+    font-size: 2rem;
+  }
+  
+  .doctorImage {
+    margin-top: 2rem;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+  .searchBox{
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .mainTitle {
+    font-size: 1.75rem;
+  }
+}
+
+/* // Ajout de media queries pour assurer la responsivité */
+@media (max-width: 991.98px) {
+  .mainTitle {
+    font-size: 2rem;
+  }
+  
+  .searchBox {
+    margin-bottom: 2rem;
+  }
+  
+  .doctorImage {
+    max-width: 80%;
+    margin: 0 auto;
+    display: block;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .hero {
+    padding: 2rem 0;
+  }
+  
+  .mainTitle {
+    font-size: 1.75rem;
+  }
+  
+  .heroTitle {
+    font-size: 1.1rem;
+  }
+  
+  .searchTitle {
+    font-size: 1.1rem;
+  }
+  
+  .searchBox {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .mainTitle {
+    font-size: 1.5rem;
+  }
+  
+  .searchInput {
+    margin-bottom: 1rem;
+  }
+}

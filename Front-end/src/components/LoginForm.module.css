@@ -1,7 +1,7 @@
 /* src/components/LoginForm.module.css */
 
 .loginContainer {
-  max-width: 400px;
+  max-width: 500px;
   margin: 60px auto;
   padding: 30px;
   background: #f9f9f9;
@@ -12,7 +12,7 @@
 
 .title {
   text-align: center;
-  color: #0066cc;
+  color: #2AA7FF;
   margin-bottom: 25px;
 }
 
@@ -35,12 +35,12 @@ input {
 
 input:focus {
   outline: none;
-  border-color: #00aaff;
+  border-color: #2AA7FF;
   box-shadow: 0 0 5px rgba(0, 170, 255, 0.3);
 }
 
 .loginButton {
-  background-color: #00aaff;
+  background-color: #2AA7FF;
   color: white;
   border: none;
   padding: 12px;
@@ -61,7 +61,7 @@ input:focus {
 }
 
 .links a {
-  color: #00aaff;
+  color: #2AA7FF;
   text-decoration: none;
 }
 
@@ -72,7 +72,7 @@ input:focus {
 }
 
 .signupPrompt a {
-  color: #0066cc;
+  color: #2AA7FF;
   font-weight: bold;
   text-decoration: none;
 }

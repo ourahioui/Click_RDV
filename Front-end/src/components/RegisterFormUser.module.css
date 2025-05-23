@@ -1,11 +1,11 @@
 /* UserRegistrationForm.module.css */
 :root {
-  --primary: #6366F1;
-  --primary-hover: #4F46E5;
-  --background: #F8FAFC;
-  --text: #1E293B;
-  --border: #E2E8F0;
-  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --primary: #2AA7FF;
+  --primary-hover: #0c9aff;
+  --background: #2AA7FF;
+  --text: #2AA7FF;
+  --border: #c6c6c6;
+  --shadow: 0 4px 6px -1px #2AA7FF;
 }
 
 .container {
@@ -14,7 +14,7 @@
   padding: 2.5rem;
   background: white;
   border-radius: 1.5rem;
-  box-shadow: var(--shadow);
+  box-shadow: #2AA7FF;
 }
 
 .header {
@@ -85,8 +85,7 @@ p {
 }
 
 .formGroup {
-  position: relative;
-}
+  position: relative;}
 
 .inputIcon {
   position: absolute;
@@ -110,7 +109,7 @@ p {
 .inputField:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  box-shadow: 0 0 0 1px #aadbff;
 }
 
 .submitButton {
