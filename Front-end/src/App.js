@@ -5,12 +5,13 @@ import React from 'react';
 import Layout from './layouts/layout';
 
 // Import des pages/sections
-import HomePage from './pages/HomePage';
+import HomePage from './components/HomePage';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Doctors from './components/Doctors/Doctors';
 import Faq from './components/Faq/Faq';
 import Login from './pages/Login';
 import UserRegisterForm from './pages/UserRegisterForm';
+import SendVerificationCode from './pages/SendVerificationCode';
 
 function App() {
   return (
@@ -23,6 +24,9 @@ function App() {
             <Route path="/faq" element={<Faq />} />
             <Route path="/login" element={<Login />} />
             <Route path="/Useregister" element={<UserRegisterForm />} />
+            <Route path="/SendVerificationCode" element={<SendVerificationCode />} />
+            <Route path="/forgot-password" element={<SendVerificationCode />} />
+
           </Routes>
         </Layout>
       </div>
