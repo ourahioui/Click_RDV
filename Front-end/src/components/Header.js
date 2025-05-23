@@ -1,9 +1,12 @@
 // components/Header.js
 import React from 'react';
+import {Link} from 'react-router-dom' ;
+// import {useNavigate} from 'react'
 import { Navbar, Nav, Container, Button } from 'react-bootstrap';
 import styles from './Header.module.css';
 
 const Header = () => {
+  
   return (
     <header className={styles.header}>
       <Container>
@@ -29,7 +32,8 @@ const Header = () => {
                   Français
                 </Button>
               </div>
-              <Button className={styles.loginButton}>Login/Register</Button>
+              <Button className={styles.loginButton}  ><Link to="/LoginUser">Login/Register</Link></Button>
+              
             </div>
           </Navbar.Collapse>
         </Navbar>
