@@ -1,28 +1,32 @@
-// Import des styles Bootstrap et personnalisés
 import './styles/index.scss';
 import React from 'react';
 
-// Import des composants
-import Header from './components/Header/Header';
-import Hero from './components/Hero/Hero';
-import Specialties from './components/Specialties/Specialties';
+// Import du layout principal
+import Layout from './layouts/layout';
+
+// Import des pages/sections
+import HomePage from './pages/HomePage';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Doctors from './components/Doctors/Doctors';
 import Faq from './components/Faq/Faq';
-import Footer from './components/Footer/Footer';
+import Login from './pages/Login';
+import UserRegisterForm from './pages/UserRegisterForm';
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      <main>
-        <Hero />
-        <Specialties />
-        <Doctors />
-        <Faq />
-      </main>
-      <Footer />
-    </div>
+    <Router>
+      <div className="App">
+        <Layout>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/doctors" element={<Doctors />} />
+            <Route path="/faq" element={<Faq />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/Useregister" element={<UserRegisterForm />} />
+          </Routes>
+        </Layout>
+      </div>
+    </Router>
   );
 }
-
 export default App;

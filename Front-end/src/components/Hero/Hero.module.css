@@ -123,6 +123,10 @@
     margin-right: auto;
     display: block;
   }
+  .searchBox{
+    width: 100%;
+    height: auto;
+  }
 }
 
 @media (max-width: 767.98px) {

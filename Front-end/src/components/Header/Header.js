@@ -1,6 +1,9 @@
 import React from 'react';
 import styles from './Header.module.css';
-import { Container, Navbar, Nav, NavDropdown, Button } from 'react-bootstrap';
+import { Container, Navbar, Nav, NavDropdown, Button  } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+
+
 
 const Header = () => {
   return (
@@ -13,7 +16,7 @@ const Header = () => {
       {/* Navigation principale */}
       <Navbar expand="lg" className={styles.header + " py-2"}>
         <Container>
-          <Navbar.Brand href="#" className={styles.logo}>
+          <Navbar.Brand as={Link} to="/" className={styles.logo}>
             <i className="fas fa-calendar-alt me-2" style={{color: '#2AA7FF'}}></i>
             ClickRDV
           </Navbar.Brand>
@@ -22,9 +25,17 @@ const Header = () => {
           
           <Navbar.Collapse id="main-navbar">
             <Nav className="mx-auto">
-              <Nav.Link href="#" className={styles.navLink + " mx-2"}>Accueil</Nav.Link>
-              <Nav.Link href="#" className={styles.navLink + " mx-2"}>Trouver des médecins</Nav.Link>
-              <Nav.Link href="#" className={styles.navLink + " mx-2"}>Support</Nav.Link>
+              <Nav.Link as={Link} to="/" className={styles.navLink + " mx-2"}>
+                Accueil
+              </Nav.Link>
+              
+              <Nav.Link as={Link} to="/doctors" className={styles.navLink + " mx-2"}>
+                Trouver des médecins
+              </Nav.Link>
+              
+              <Nav.Link as={Link} to="/faq" className={styles.navLink + " mx-2"}>
+                Support
+              </Nav.Link>
             </Nav>
             
             <div className="d-flex align-items-center">
@@ -37,10 +48,12 @@ const Header = () => {
                 <NavDropdown.Item href="#">English</NavDropdown.Item>
                 <NavDropdown.Item href="#">العربية</NavDropdown.Item>
               </NavDropdown>
+              <Nav.Link as={Link} to="/login" className={styles.navLink + " mx-2"}>
+                <Button className={styles.loginButton}>
+                  Login/Signup
+                </Button>
+              </Nav.Link>
               
-              <Button className={styles.loginButton}>
-                Login/Signup
-              </Button>
             </div>
           </Navbar.Collapse>
         </Container>
