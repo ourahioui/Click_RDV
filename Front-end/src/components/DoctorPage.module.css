@@ -1,0 +1,51 @@
+/* App.module.css */
+
+/* Add global styles or layout adjustments for the App component here if needed */
+
+.appContainer {
+  /* Example: Set a minimum height or background color for the whole app */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.mainContent {
+  flex-grow: 1; /* Ensure main content pushes footer down */
+  padding-top: 2rem; /* Add some space below the search section */
+  padding-bottom: 2rem;
+  position: relative; /* Needed for z-index stacking if search background overlaps */
+  z-index: 0; /* Ensure content is behind the search card shadow */
+  margin-top: 50px; /* Counteract the negative margin of searchBackground */
+}
+
+.resultsHeader {
+  /* Styles for the header above the doctor cards */
+  border-bottom: 1px solid #eee; /* Optional separator */
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem !important; /* Ensure space below header */
+}
+
+.resultsHeader h4 {
+    font-weight: 600;
+    color: #343a40;
+}
+
+.resultsSubheader {
+    font-size: 0.9rem;
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+}
+
+/* Responsive adjustments for main content padding */
+@media (max-width: 767.98px) {
+    .mainContent {
+        margin-top: 0; /* Reset margin when search background doesn't curve */
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+    }
+    .resultsHeader h4 {
+        font-size: 1.25rem;
+    }
+}
+

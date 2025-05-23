@@ -1,0 +1,135 @@
+/* DoctorCard.module.css */
+
+.doctorCard {
+  border: 1px solid #e0e0e0;
+  border-radius: 0.5rem;
+  overflow: hidden; /* Ensure child elements don't overflow rounded corners */
+  transition: box-shadow 0.3s ease;
+}
+
+.doctorCard:hover {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.imageContainer {
+  padding: 1rem;
+  position: relative;
+}
+
+.doctorImage {
+  max-width: 100px;
+  height: auto;
+  border: 3px solid #fff; /* Optional: white border around image */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for image */
+}
+
+.verifiedIcon {
+  position: absolute;
+  bottom: 15px; /* Adjust position as needed */
+  right: 15px; /* Adjust position as needed */
+  font-size: 1.2rem;
+  background-color: white;
+  border-radius: 50%;
+  padding: 2px; /* Small padding to lift icon off background */
+}
+
+.doctorName {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.25rem;
+}
+
+.doctorSpecialty {
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+}
+
+.doctorExperience,
+.doctorLocation {
+  font-size: 0.85rem;
+  margin-bottom: 0.25rem;
+}
+
+.ratingContainer {
+  display: flex;
+  align-items: center;
+}
+
+.ratingBadge {
+  display: inline-flex; /* Use flex to align icon and text */
+  align-items: center; /* Vertically center icon and text */
+  padding: 0.25rem 0.6rem;
+  border-radius: 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.patientStories {
+  font-size: 0.8rem;
+}
+
+.bookingContainer {
+  padding: 1rem;
+  border-left: 1px solid #e0e0e0; /* Separator line on larger screens */
+}
+
+.availabilityText {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem !important; /* Override Bootstrap margin */
+}
+
+.bookingButton {
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  border-radius: 0.375rem;
+  transition: background-color 0.15s ease-in-out;
+  font-size: 0.9rem;
+  width: 100%; /* Make button full width in its column */
+  max-width: 200px; /* Optional: max-width for the button */
+}
+
+.bookingButton:hover {
+  background-color: #1e8ad8 !important; /* Darken primary color */
+  color: white !important;
+}
+
+.timeSlotsFooter {
+    padding: 1rem;
+}
+
+/* Placeholder style for TimeSlots container */
+.timeSlotsContainerPlaceholder {
+    /* Add specific styles if needed for the placeholder */
+    text-align: center; /* Example */
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+  .imageContainer {
+    justify-content: flex-start; /* Align image to left on small screens */
+    padding-bottom: 0;
+  }
+  .doctorImage {
+      max-width: 80px;
+  }
+  .verifiedIcon {
+      bottom: 5px;
+      right: auto; /* Reset right positioning */
+      left: 65px; /* Position relative to the image */
+      font-size: 1rem;
+  }
+  .bookingContainer {
+    border-left: none; /* Remove separator line */
+    border-top: 1px solid #e0e0e0; /* Add top border instead */
+    align-items: flex-start !important; /* Align items left */
+    padding-top: 1rem;
+  }
+  .bookingButton {
+      max-width: none; /* Allow button to be full width */
+  }
+  .card-body {
+      padding-top: 0.5rem; /* Reduce padding */
+  }
+}
+
