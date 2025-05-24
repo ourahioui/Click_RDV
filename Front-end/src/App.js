@@ -8,9 +8,9 @@ import Layout from './layouts/layout';
 import HomePage from './components/HomePage';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Faq from './components/Faq/Faq';
-import Login from './pages/Login';
-import UserRegisterForm from './pages/UserRegisterForm';
-import SendVerificationCode from './pages/SendVerificationCode';
+import Login from './components/LoginUser';
+import UserRegisterForm from './components/Useregister';
+import SendVerificationCode from './components/SendVerificationCode';
 import DoctorsPage from './components/DoctorsPage';
 
 function App() {
