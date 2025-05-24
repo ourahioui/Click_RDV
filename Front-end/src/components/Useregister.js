@@ -17,55 +17,76 @@ export default function UserRegisterForm() {
     tel: '',
     birthDate: ''
   });
-  const [showVerification, setShowVerification] = useState(false);
-  const [SubmitButton , setSubmitButton] = useState(false) ; 
+   const [SubmitButton , setSubmitButton] = useState(false) ; 
+   const navigate = useNavigate() ; 
 
-// const navigate = useNavigate() ; 
+function validateForm()
+{
+        if(!formData.nom || !formData.prenom || !formData.email || !formData.password ||!formData.tel )
+        {
+          alert("Veuillez remplir tous les champs.");
+          return false ; 
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if(!emailRegex.test(formData.email))
+        {
+          alert("adresse email non valide") ; 
+          return false  ; 
+        }
+        
+        const telRegex  = /^[0-9]{10}$/ ; 
+        if(!telRegex.test(formData.tel))
+        {
+          alert("Numéro de téléphone invalide (10 chiffres requis)."); 
+          return false ; 
+        }
+        
+        return true ;
+
+      
+}
 
 const handleSubmit = async (e)=>{
     e.preventDefault() ; 
-    setSubmitButton(true)  ; 
+     if(validateForm())
+     {
+              navigate('/SendVerificationCode', { state: formData });
 
-    // navigate('/SendVerificationCode')  ;
-     try {
-      const response = await fetch('http://localhost:5000/auth/send-code', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        // body: JSON.stringify({ email }),
-         body: JSON.stringify({ email:formData.email }),
+            try {
+              const response = await fetch('http://localhost:5000/auth/send-code', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                  body: JSON.stringify({ email:formData.email }),
 
-      });
-      
-    //   const data = await response.json();
-   
-      
-    } catch (err) {
-      console.error(err);
-       console.log("Erreur lors de la connexion au serveur") ; 
-      // setMessage("Erreur lors de la connexion au serveur");
-    }
-    setShowVerification(true)  ; 
-  };
+              });
+              
+              
+              } catch (err) {
+                console.error(err);
+                console.log("Erreur lors de la connexion au serveur") ; 
+                // setMessage("Erreur lors de la connexion au serveur");
+              }
+            }
+     
+   };
  
 
 
 
 
 const handleChange =(e)=>{
-//    const {name,value} = e.target ; 
-  setFormData({...formData,[e.target.name]:e.target.value}) ; 
-//   setFormData({ ...formData, [e.target.name]: e.target.value });
-
+   setFormData({...formData,[e.target.name]:e.target.value}) ; 
+ 
   console.log(formData) ;
 }
 
 return (
     <div className={styles.container}>
-       { showVerification ? (
+       {/* { showVerification ? (
         <SendVerificationCode formData={formData} />
-       ):
+       ):  */}
        <>
       <div className={styles.header}>
         {/* <MedicalIcon className={styles.logo} /> */}
@@ -74,11 +95,7 @@ return (
       </div>
 
       <form className={styles.form}>
-        {/* Role Selection */}
-        <div className={styles.roleSelector}>
-           
-        </div>
-
+        
         {/* Form Fields */}
         <div className={styles.formGroup}>
           <label>
@@ -157,39 +174,10 @@ return (
                       />
                     </label>
                   </div>
-
-                  {/* <div className={styles.formGroup}>
-                    <label>
-                      <FiLock className={styles.inputIcon} />
-                      <input
-                        type="password"
-                        placeholder="Confirmation"
-                        required
-                        className={styles.inputField}
-                        name="Confirmation"
-                        onChange={handleChange}
-
-                      />
-                    </label>
-                  </div> */}
-
+ 
         </div>
 
-        {/* <div className={styles.formRow}>
-          <div className={styles.formGroup}>
-            <label>
-              <FiCalendar className={styles.inputIcon} />
-              <input
-                type="date"
-                className={styles.inputField}
-                max={new Date().toISOString().split('T')[0]}
-                name="birthDate"
-                onChange={handleChange}
-
-              />
-            </label>
-          </div>
-        </div> */}
+         
 
        {SubmitButton ?
           <button type="submit" className={styles.submitButton} onClick={handleSubmit} disabled>
@@ -212,7 +200,7 @@ return (
         </div>
       </form>
       </>
-}
+{/* } */}
     </div>
   );
 }

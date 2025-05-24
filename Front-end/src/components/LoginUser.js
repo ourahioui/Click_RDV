@@ -7,10 +7,18 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // TODO: authentification ici
-    console.log("Email:", email, "Mot de passe:", password);
+    // console.log("Email:", email, "Mot de passe:", password);
+    // await fetch("http://localhost:5000/auth/Login-patient",
+    //   method:"POST" , 
+    //   headers: {
+    //    'Content-Type': 'application/json',
+    //   } , 
+    //   body:JSON.stringify({email:email,password:password}) , 
+ 
+    // )
   };
 
   return (
@@ -34,7 +42,7 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-
+        
         <div className={styles.links}>
           <Link to="/forgot-password">Mot de passe oublié ?</Link>
         </div>

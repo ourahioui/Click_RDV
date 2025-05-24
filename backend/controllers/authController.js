@@ -5,7 +5,7 @@
 // export const sendVerificationCode = async (email) => {
 //   const code = Math.floor(100000 + Math.random() * 900000);
 //   const token = generateToken({ email, code });
-  
+     
 //   await pool.execute(
 //     `INSERT INTO users (email, verification_code)
 //      VALUES (?, ?)
@@ -61,13 +61,16 @@ const storeCode = (email, code) => {
 };
 
 
-
+ export async function deleteCodeFromDb(email)
+ {
+       connection.query("delete from codes where email=?",[email]) ;
+}
 
 export   async function sendVerificationCode  (req, res){
   // try {
     const { email } = req.body;
     const codegenerated = generateNumericCode(); // Génère un code à 6 chiffres
-    
+    deleteCodeFromDb(email)
     await storeCode( email , codegenerated)
 //     if (err) {
 //     return res.status(500).json({ error: "Erreur d'enregistrement du code" });
@@ -98,11 +101,11 @@ export function verifyCode(req, res) {
       console.error('Erreur lors de la requête :', err);
       return res.status(500).json({ error: 'Erreur de vérification' });
     }
-
+    
     if (results.length === 0 || results[0].code !== code) {
       return res.status(400).json({ error: 'Code invalide' });
     }
-
+    
     // const now = new Date();
     // const expiresAt = new Date(results[0].expires_at);
     
@@ -115,23 +118,24 @@ export function verifyCode(req, res) {
   });
  }
 //  -------------------------------
- 
+
 //  -------------------------------
  export   async function registerPatient(req,res)
  {
     const {nom,prenom, email,password,tel}  = req.body ; 
-    const hashedPassword  =await hashPassword(password)  ;
+    const hashedPassword  = await hashPassword(password)  ;
 
     connection.query("insert into patient(nom,prenom, email,password,tel) value(?,?,?,?,?)",[nom,prenom, email,hashedPassword,tel],(err,results)=>{
         if(err){
+          deleteCodeFromDb(email);
           console.error("err d'ajout un nouveau patient")  ;
            return res.status(500).json({ error: 'Errer dajout un nouveau patient' });
         }
-        connection.query("delete from codes where email=?",[email])
-        return res.status(201).json(results.insertId);
+        deleteCodeFromDb(email) ;
+        // return res.status(201).json(results) ;
+        return res.status(201).json({ email: email });
     })
-    // return res.json({data:hashedPassword}) ; 
- }
+  }
 //  ------------------------------------
  async function hashPassword(password)
  {

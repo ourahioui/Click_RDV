@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from 'react';
+import {useNavigate,useLocation} from 'react-router-dom' ; 
 // import { sendCode, verifyCode } from '../services/api';
 // import './styles/Verification.css';
 
-export default function  SendVerificationCode  ({ formData }) {
+export default function  SendVerificationCode  () {
   const [code, setCode] = useState('');
   const [countdown, setCountdown] = useState(0);
- 
-
+ const location = useLocation();
+  const formData = location.state;
+  const navigate = useNavigate() ;
   const {nom,prenom, email,password,tel}  = formData ; 
  
   useEffect(() => {
     const timer = countdown > 0 && setInterval(() => {
       setCountdown(c => c - 1);
     }, 1000);
-
+  
     return () => clearInterval(timer);
   }, [countdown]);
 
+  useEffect(()=>{
 
+  },[])
 
    const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,13 +49,23 @@ export default function  SendVerificationCode  ({ formData }) {
           }) ; 
           if(response.ok)
           {
-            // console.log(response) ; 
-            alert("inscrit avec succes")  ; 
+             alert("inscrit avec succes")  ; 
+             const data = await response.json(); // ici tu accèdes à results.email
+            localStorage.setItem("email",data.email) ; 
+           
+            
+            navigate('/');
+          }
+          else  
+          {
+              console.log(response) ; 
+              alert("Erreur : cet email est déjà lié à un autre compte.");
+              navigate('/');
           }
 
         }
         else{
-          alert("pas ok") ;
+          alert("essayer une autre fois!") ;
         }
 
  

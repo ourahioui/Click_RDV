@@ -72,10 +72,11 @@
 import express from 'express';
 const router = express.Router();
 // const {sendVerificationCode, verifyCode} = require('../controllers/authController');
-import {sendVerificationCode,verifyCode,registerPatient} from '../controllers/authController.js' ; 
+import {sendVerificationCode,verifyCode,registerPatient,deleteCodeFromDb} from '../controllers/authController.js' ; 
 
 router.post('/send-code', sendVerificationCode);
 router.post('/verify-code', verifyCode);
 router.post('/register-patient',registerPatient) ; 
+router.post('/delete-code',deleteCodeFromDb) ; 
 
 export default router ; 

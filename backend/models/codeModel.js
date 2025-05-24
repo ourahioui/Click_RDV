@@ -1,24 +1,33 @@
-export default {
-  async createOrUpdate(email, code, expiresAt) {
-    return db('codes')
-      .insert({
-        email,
-        code,
-        expires_at: expiresAt
-      })
-      .onConflict('email')
-      .merge();
-  },
+// ca le model 
 
-  async findByEmail(email) {
-    return db('codes')
-      .where('email', email)
-      .first();
-  },
+import { Model } from 'objection';
 
-  async deleteByEmail(email) {
-    return db('codes')
-      .where('email', email)
-      .del();
+class Code extends Model {
+  
+  static get tableName() {
+    return 'codes'; // Nom de la table dans la base de données
   }
-};
+  //  ------------------
+  static get idColumn() {
+    return 'id'; // Clé primaire (par défaut : 'id')
+  }
+  //  ------------------
+  static get jsonSchema() {
+    return {
+      type: 'object',
+      required: ['name', 'email'],
+
+      properties: {
+        id: { type: 'integer' },
+        name: { type: 'string' },
+        email: { type: 'string' },
+        password: { type: 'string' }
+      }
+    };
+  }
+    
+
+
+}
+
+export default User;

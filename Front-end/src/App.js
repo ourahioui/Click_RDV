@@ -11,7 +11,7 @@ import Doctors from './components/Doctors/Doctors';
 import Faq from './components/Faq/Faq';
 import Login from './components/LoginUser';
 import UserRegisterForm from './components/Useregister.js';
-// import SendVerificationCode from './pages/SendVerificationCode';
+import SendVerificationCode from './components/SendVerificationCode.js';
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
             <Route path="/faq" element={<Faq />} />
             <Route path="/login" element={<Login />} />
             <Route path="/Useregister" element={<UserRegisterForm />} />
-            {/* <Route path="/SendVerificationCode" element={<SendVerificationCode />} /> */}
+            <Route path="/SendVerificationCode" element={<SendVerificationCode />} />
             {/* <Route path="/forgot-password" element={<SendVerificationCode />} /> */}
              
           </Routes>
