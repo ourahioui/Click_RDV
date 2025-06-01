@@ -7,12 +7,13 @@ import Layout from './layouts/layout';
 // Import des pages/sections
 import HomePage from './components/HomePage';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Doctors from './components/Doctors/Doctors';
 import Faq from './components/Faq/Faq';
-import Login from './components/LoginUser';
-import UserRegisterForm from './components/Useregister.js';
-import SendVerificationCode from './components/SendVerificationCode.js';
-
+import DoctorsPage from './components/DoctorsPage';
+import PatientRegisterForm from './components/PatientRegisterForm';
+import MedecinRegester from './components/MedecinRegister'  ; 
+import SendVerificationCode from './components/SendVerificationCode';
+import LoginMedecin from './components/LoginMedecin' ; 
+import LoginPatient from './components/loginPatient';
 function App() {
   return (
     <Router>
@@ -20,13 +21,14 @@ function App() {
         <Layout>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/doctors" element={<Doctors />} />
+            <Route path="/doctors" element={<DoctorsPage  />} />
             <Route path="/faq" element={<Faq />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/Useregister" element={<UserRegisterForm />} />
+            <Route path="/LoginPatient" element={<LoginPatient />} /> 
+            <Route path="/LoginMedecin" element={<LoginMedecin/>}/>
+            <Route path="/PatientRegister" element={<PatientRegisterForm />} />
+            <Route path="/MedecinRegester" element={<MedecinRegester/>} />
             <Route path="/SendVerificationCode" element={<SendVerificationCode />} />
-            {/* <Route path="/forgot-password" element={<SendVerificationCode />} /> */}
-             
+            
           </Routes>
         </Layout>
       </div>

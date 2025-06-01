@@ -1,38 +1,13 @@
-// import pool from '../config/db.js';
-// import { sendVerificationEmail } from '../services/emailService.js';
-// import { generateToken, verifyToken } from '../services/jwtService.js';
-
-// export const sendVerificationCode = async (email) => {
-//   const code = Math.floor(100000 + Math.random() * 900000);
-//   const token = generateToken({ email, code });
-     
-//   await pool.execute(
-//     `INSERT INTO users (email, verification_code)
-//      VALUES (?, ?)
-//      ON DUPLICATE KEY UPDATE verification_code = ?`,
-//     [email, code, code]
-//   );
-
-//   await sendVerificationEmail(email, code);
-//   return token;
-// };
-
-// export const verifyEmailCode = async (email, code) => {
-//   const [rows] = await pool.execute(
-//     `SELECT verification_code FROM users WHERE email = ?`,
-//     [email]
-//   );
-  
-//   return rows[0]?.verification_code === code;
-// };
-// const { sendEmail } = require('../utils/emailSender');
-
-
+ 
 import  sendVerificationEmail  from '../utils/emailSender.js';
 import  generateNumericCode  from '../utils/generateCode.js';
 // import Code from '../models/codeModel.js'; 
 import mysql from 'mysql';
 import bcrypt from 'bcrypt' ;
+import jwt from 'jsonwebtoken' ; 
+import dotenv from 'dotenv' ; 
+import multer from 'multer';
+ dotenv.config() ; 
 
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -69,6 +44,8 @@ const storeCode = (email, code) => {
 export   async function sendVerificationCode  (req, res){
   // try {
     const { email } = req.body;
+    //verifier si l'email est deja utilise
+    
     const codegenerated = generateNumericCode(); // Génère un code à 6 chiffres
     deleteCodeFromDb(email)
     await storeCode( email , codegenerated)
@@ -117,25 +94,57 @@ export function verifyCode(req, res) {
     res.json({ success: results });
   });
  }
-//  -------------------------------
-
+ 
 //  -------------------------------
  export   async function registerPatient(req,res)
  {
     const {nom,prenom, email,password,tel}  = req.body ; 
-    const hashedPassword  = await hashPassword(password)  ;
+    const hashedPassword  = await hashPassword( password)  ;
 
-    connection.query("insert into patient(nom,prenom, email,password,tel) value(?,?,?,?,?)",[nom,prenom, email,hashedPassword,tel],(err,results)=>{
+    connection.query("insert into patient(nom,prenom, email,password,tel) values(?,?,?,?,?)",[ nom,prenom,  email,hashedPassword, tel],(err,results)=>{
         if(err){
           deleteCodeFromDb(email);
-          console.error("err d'ajout un nouveau patient")  ;
-           return res.status(500).json({ error: 'Errer dajout un nouveau patient' });
+          console.error(err)  ;
+           return res.status(500).json({error:"Erreur lors de l'ajout du patient"}) ;
         }
-        deleteCodeFromDb(email) ;
+        deleteCodeFromDb( email) ;
         // return res.status(201).json(results) ;
-        return res.status(201).json({ email: email });
+         const token = jwt.sign({email:  email,id: results.insertId  }, process.env.JWT_SECRET,{expiresIn: "1h",})
+        return res.status(201).json({ email:  email ,token:token});
     })
   }
+  // ---------------------------------------------------------------------
+ 
+export async  function registerMedecin(req, res) {
+ 
+
+    const { nom, prenom, email, password, tel, experience, specialite } = req.body;
+    const photo = req.file ? req.file.filename : null;
+    
+    if (!password) {
+      return res.status(400).json({ error: 'Mot de passe requis' });
+    }
+
+    const hashedPassword = await hashPassword(password);
+
+    const sql = `INSERT INTO medecins(nom, prenom, email, telephone, password, specialite, ville, experience, img_url)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+
+    connection.query(sql, [
+      nom, prenom, email, tel, hashedPassword, specialite, 'Casablanca', experience, photo
+    ], (err, results) => {
+      if (err) {
+        deleteCodeFromDb(email);
+        console.error("Erreur d'ajout :", err);
+        return res.status(500).json({ error: "Erreur lors de l'ajout du médecin" });
+      }
+      deleteCodeFromDb(email);
+      const token = jwt.sign({ email, id: results.insertId }, process.env.JWT_SECRET, { expiresIn: "1h" });
+
+      return res.status(201).json({ email, token });
+    });
+ }
+
 //  ------------------------------------
  async function hashPassword(password)
  {
@@ -143,3 +152,33 @@ export function verifyCode(req, res) {
     const pass =  await bcrypt.hash(password,salt) ;  
     return pass ; 
  }
+//  -------------------------------
+ function ComparePassword(password,encryptedPass)
+ {
+    return bcrypt.compare(password, encryptedPass);
+ }
+
+//  -------------------------------
+export async function LoginPatient(req, res) {
+  const { email, password , SearchTable} = req.body;
+
+  connection.query("SELECT * FROM "+ SearchTable+" WHERE email = ?" , [email], async (err, results) => {
+    if (err || results.length === 0) {
+      return res.status(401).json({ error: "Email ou mot de passe incorrect" });
+    }
+    
+    const data = results[0];
+    const isMatch = await ComparePassword(password, data.password);
+    // const isMatch = await ComparePassword(password, patient.motDePasse);
+
+    if (!isMatch) {
+      return res.status(401).json({ error: "Email ou mot de passe incorrect" });
+    }
+
+    const token = jwt.sign(
+      { email: data.email, id: data.id },process.env.JWT_SECRET,{ expiresIn: "1h" }
+    );
+    
+    return res.status(200).json({ token });
+  });
+}

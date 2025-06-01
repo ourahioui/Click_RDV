@@ -7,7 +7,7 @@ import {useNavigate} from 'react-router-dom' ;
 // import SendVerificationCode from '../components/SendVerificationCode.js' ; 
 import SendVerificationCode from './SendVerificationCode.js' ; 
 
-export default function UserRegisterForm() {
+export default function PatientRegisterForm() {
   const [formData, setFormData] = useState({
     nom: '',
     prenom:'' , 
@@ -15,7 +15,8 @@ export default function UserRegisterForm() {
     password: '',
     Confirmation: '',
     tel: '',
-    birthDate: ''
+    birthDate: '',
+    role:"register-patient"
   });
    const [SubmitButton , setSubmitButton] = useState(false) ; 
    const navigate = useNavigate() ; 
@@ -51,7 +52,7 @@ const handleSubmit = async (e)=>{
      if(validateForm())
      {
               navigate('/SendVerificationCode', { state: formData });
-
+                 
             try {
               const response = await fetch('http://localhost:5000/auth/send-code', {
                 method: 'POST',

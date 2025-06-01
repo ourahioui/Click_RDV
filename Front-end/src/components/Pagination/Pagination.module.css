@@ -1,0 +1,62 @@
+/* Pagination.module.css */
+
+.paginationNav {
+  margin-top: 2rem; /* Space above pagination */
+  margin-bottom: 2rem; /* Space below pagination */
+}
+
+.paginationUl {
+  /* Bootstrap default styles are generally good, add customizations if needed */
+}
+
+.pageItem {
+  margin: 0 2px; /* Small horizontal margin between items */
+}
+
+.pageLink {
+  border-radius: 0.25rem !important; /* Ensure consistent border radius */
+  color: #2AA7FF; /* Primary color for links */
+  border: 1px solid #dee2e6;
+  min-width: 38px; /* Ensure minimum width for alignment */
+  text-align: center;
+  transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+.pageLink:hover {
+  background-color: #e9ecef; /* Light background on hover */
+  border-color: #dee2e6;
+  color: #0a58ca; /* Slightly darker blue on hover */
+}
+
+.pageItem.disabled .pageLink {
+  color: #6c757d;
+  background-color: #fff;
+  border-color: #dee2e6;
+}
+
+/* Active state is handled inline via style prop for background/color */
+.pageItem.active .pageLink {
+  z-index: 3;
+  /* color: #fff; */ /* Set inline */
+  /* background-color: #2AA7FF; */ /* Set inline */
+  /* border-color: #2AA7FF; */ /* Set inline */
+  font-weight: 600;
+}
+
+/* Style for ellipsis */
+.pageItem.disabled .pageLink {
+    cursor: default;
+}
+
+/* Responsive adjustments if needed */
+@media (max-width: 575.98px) {
+  .pageLink {
+    padding: 0.3rem 0.6rem; /* Slightly smaller padding */
+    min-width: 32px;
+    font-size: 0.9rem;
+  }
+  .pageItem {
+      margin: 0 1px;
+  }
+}
+
