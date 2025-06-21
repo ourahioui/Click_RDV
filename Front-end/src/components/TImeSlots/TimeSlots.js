@@ -1,86 +1,177 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { useEffect, useState, useContext } from 'react';
+import axios from 'axios';
+import moment from 'moment';
+import 'moment/locale/fr';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../contexts/AuthContext';
+import AppointmentForm from '../BookingForm/BookingForm';
+import { Modal } from 'react-bootstrap';
 import styles from './TimeSlots.module.css';
+import stylesModal from "./modal.module.css";
 
-const TimeSlots = ({ availableDays }) => {
-  const [currentDayIndex, setCurrentDayIndex] = useState(0);
 
-  if (!availableDays || availableDays.length === 0) {
-    return <p>Aucun créneau disponible.</p>;
-  }
+moment.locale('fr');
 
-  const currentDay = availableDays[currentDayIndex];
+export default function Disponibilites({ medecinId }) {
+  const [data, setData] = useState({});
+  const [startDate, setStartDate] = useState(moment().startOf('day'));
+  const [selectedSlot, setSelectedSlot] = useState(null);
+  const { user } = useContext(AuthContext);
+  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
-  const goToPreviousDay = () => {
-    setCurrentDayIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : availableDays.length - 1));
-  };
-
-  const goToNextDay = () => {
-    setCurrentDayIndex((prevIndex) => (prevIndex < availableDays.length - 1 ? prevIndex + 1 : 0));
-  };
-
-  // Group slots by time of day (assuming slots have a 'period' property)
-  const groupedSlots = currentDay.slots.reduce((acc, slot) => {
-    const period = slot.period || 'Après-Midi'; // Default period if not specified
-    if (!acc[period]) {
-      acc[period] = [];
+  const fetchDisponibilites = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/api/disponibilites`, {
+        params: { medecinId }
+      });
+      const normalizedData = {};
+      for (const key in res.data) {
+        const normalizedKey = moment(key).format('YYYY-MM-DD');
+        normalizedData[normalizedKey] = res.data[key];
+      }
+      setData(normalizedData);
+    } catch (error) {
+      console.error("Erreur de chargement :", error);
     }
-    acc[period].push(slot.time);
-    return acc;
-  }, {});
+  };
+
+  useEffect(() => {
+    if (medecinId) fetchDisponibilites();
+  });
+
+
+  useEffect(() => {
+    if (!user) {
+      setSelectedSlot(null);
+    }
+  }, [user]);
+
+  const getDisplayedDates = () => {
+    const dates = [];
+    for (let i = 0; i < 7; i++) {
+      dates.push(moment(startDate).add(i, 'days').format('YYYY-MM-DD'));
+    }
+    return dates;
+  };
+
+  const getUniqueHours = () => {
+    const all = Object.values(data).flat();
+    const heures = all.map(h => h.heureDebut);
+    return [...new Set(heures)].sort();
+  };
+
+  const nextWeek = () => {
+    setStartDate(prev => moment(prev).add(7, 'days'));
+  };
+
+  const prevWeek = () => {
+    const newDate = moment(startDate).subtract(7, 'days');
+    if (newDate.isSameOrAfter(moment().startOf('day'))) {
+      setStartDate(newDate);
+    }
+  };
+
+  const handleBookAppointment = (date, heureDebut) => {
+    if (!user) {
+      navigate('/LoginPatient');
+    } else {
+      setSelectedSlot({ date, heureDebut });
+      setShowModal(true);
+    }
+  };
+
+  const displayedDates = getDisplayedDates();
+  const uniqueHours = getUniqueHours();
 
   return (
-    <div className={`card ${styles.timeSlotsCard}`}>
-      <div className={`card-header d-flex justify-content-between align-items-center ${styles.cardHeader}`}>
-        <button className={`btn btn-link ${styles.navButton}`} onClick={goToPreviousDay} aria-label="Previous day">
-          <FontAwesomeIcon icon={faChevronLeft} />
-        </button>
-        <div className={styles.dayInfo}>
-          <span className={styles.dayLabel}>{currentDay.dayLabel}</span>
-          {currentDay.date && <span className={styles.dayDate}> - {currentDay.date}</span>}
-          <span className={styles.availabilityCount}>{currentDay.availabilityText}</span>
-        </div>
-        <button className={`btn btn-link ${styles.navButton}`} onClick={goToNextDay} aria-label="Next day">
-          <FontAwesomeIcon icon={faChevronRight} />
-        </button>
-      </div>
-      <div className={`card-body ${styles.cardBody}`}>
-        {Object.entries(groupedSlots).map(([period, times]) => (
-          <div key={period} className="mb-3">
-            <h6 className={styles.periodTitle}>{period}</h6>
-            <div className={styles.slotsGrid}>
-              {times.map((time, index) => (
-                <button key={index} className={`btn btn-outline-primary ${styles.timeSlotButton}`}>
-                  {time}
-                </button>
-              ))}
+    <div className="container mt-4">
+      <div className={`card ${styles.timeSlotsCard}`}>
+        <div className={styles.cardHeader}>
+          <button
+            onClick={prevWeek}
+            className={styles.navButton}
+            disabled={startDate.isSameOrBefore(moment().startOf('day'))}
+          >
+            ←
+          </button>
+          <div className={styles.dayInfo}>
+            <div className={styles.dayLabel}>Disponibilités</div>
+            <div className={styles.dayDate}>
+              {moment(startDate).format('D MMMM')} - {moment(startDate).add(6, 'days').format('D MMMM')}
             </div>
           </div>
-        ))}
-        {Object.keys(groupedSlots).length === 0 && (
-            <p className='text-muted text-center'>Aucun créneau disponible pour {currentDay.dayLabel}.</p>
-        )}
+          <button onClick={nextWeek} className={styles.navButton}>→</button>
+        </div>
+
+        <div className={styles.cardBody}>
+
+          <div className="table-responsive">
+            <table className={`table text-center ${styles.table}`}>
+              <thead className="table-light">
+                <tr>
+                  {displayedDates.map((date, index) => (
+                    <th key={index}>
+                      <div className="text-capitalize fw-bold">{moment(date).format('dddd')}</div>
+                      <div className="text-muted">{moment(date).format('D MMM')}</div>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {uniqueHours.map((heure, rowIndex) => (
+                  <tr key={rowIndex}>
+                    {displayedDates.map((date, colIndex) => {
+                      const match = data[date]?.find(d => d.heureDebut === heure);
+                      return (
+                        <td key={colIndex}>
+                          {match ? (
+                            <button
+                              className="btn btn-success w-100 mb-2"
+                              onClick={() => handleBookAppointment(date, match.heureDebut)}
+                            >
+                              {match.heureDebut}
+                            </button>
+                          ) : (
+                            <div className={styles.noAvailability}>—</div>
+                          )}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
+
+      {/* 💡 Modal pour afficher le formulaire */}
+      <Modal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        centered
+        className={stylesModal.customModalWidth}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Réserver un rendez-vous</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {selectedSlot && (
+            <AppointmentForm
+              date={selectedSlot.date}
+              heureDebut={selectedSlot.heureDebut}
+              medecinId={medecinId}
+              user={user}
+              onClose={() => setShowModal(false)}
+              onConfirm={() => {
+                setShowModal(false);
+                fetchDisponibilites();
+              }}
+            />
+          )}
+        </Modal.Body>
+      </Modal>
     </div>
   );
-};
-
-TimeSlots.propTypes = {
-  availableDays: PropTypes.arrayOf(
-    PropTypes.shape({
-      dayLabel: PropTypes.string.isRequired, // e.g., "Aujourd'hui", "Demain"
-      date: PropTypes.string, // e.g., "Ven. 21 Février"
-      availabilityText: PropTypes.string.isRequired, // e.g., "11 Emplacements Disponibles"
-      slots: PropTypes.arrayOf(
-        PropTypes.shape({
-          time: PropTypes.string.isRequired, // e.g., "11:30 AM"
-          period: PropTypes.string, // e.g., "Matin", "Après-Midi", "Soir"
-        })
-      ).isRequired,
-    })
-  ).isRequired,
-};
-
-export default TimeSlots;
+}

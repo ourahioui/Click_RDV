@@ -19,6 +19,8 @@ import ProfileMedecin from './components/ProfileMedecin'  ;
 import Medecin_generaliste from './components/Doctors/Medecin_generaliste' ;
 import MedicalProfileTabs from './components/MedicalProfileTabs.jsx' ; 
 import { jwtDecode } from 'jwt-decode';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
    
   
@@ -48,6 +50,8 @@ function App() {
               }/> 
               <Route path="/medecin-generaliste" element={<Medecin_generaliste/>}/>
           </Routes>
+                <ToastContainer position="top-center" autoClose={2500} />
+
         </Layout>
       </div>
     </Router>

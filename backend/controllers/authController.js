@@ -12,7 +12,7 @@ import multer from 'multer';
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '',
+  password: 'ibrahimKHANTACH2004',
   database: 'rdv'
 });
 // Stocker les codes en base de données
@@ -53,6 +53,31 @@ export   async function sendVerificationCode  (req, res){
   return res.status(201).json(codegenerated) ; 
    
 };
+export async function sendVerificationCode(req, res) {
+  try {
+    const { email } = req.body;
+
+    // Vérifier si l'email est valide (optionnel)
+    if (!email) {
+      return res.status(400).json({ error: "Email is required" });
+    }
+
+    // Générer et enregistrer le code
+    const codegenerated = generateNumericCode();
+    await deleteCodeFromDb(email);
+    await storeCode(email, codegenerated);
+
+    // Envoyer l'email
+    await sendVerificationEmail(email, codegenerated);
+
+    // Réponse OK
+    return res.status(201).json({ message: "Code envoyé avec succès !" });
+  } catch (error) {
+    console.error("Erreur dans sendVerificationCode:", error);
+    return res.status(500).json({ error: "Erreur d'envoi du code" });
+  }
+}
+
 
 
 
