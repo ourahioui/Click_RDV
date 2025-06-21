@@ -1,5 +1,5 @@
 import './styles/index.scss';
-import React from 'react';
+import React, { useState } from 'react';
 
 // Import du layout principal
 import Layout from './layouts/layout';
@@ -14,9 +14,21 @@ import MedecinRegester from './components/MedecinRegister'  ;
 import SendVerificationCode from './components/SendVerificationCode';
 import LoginMedecin from './components/LoginMedecin' ; 
 import LoginPatient from './components/loginPatient';
+import ProfilePatient from './components/ProfilePatient' ;
+import ProfileMedecin from './components/ProfileMedecin'  ;
+import Medecin_generaliste from './components/Doctors/Medecin_generaliste' ;
+import MedicalProfileTabs from './components/MedicalProfileTabs.jsx' ; 
+import { jwtDecode } from 'jwt-decode';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 function App() {
+   
+  
+  //  const [token,settoken] = useState(localStorage.getItem("token")) ;
+  // const [decoded,setdecoded] = useState(jwtDecode(token)) ;
+
+   const token =localStorage.getItem("token")? localStorage.getItem("token"):'';
+   const decoded = token?jwtDecode(token):'' ; 
   return (
     <Router>
       <div className="App">
@@ -30,13 +42,19 @@ function App() {
             <Route path="/PatientRegister" element={<PatientRegisterForm />} />
             <Route path="/MedecinRegester" element={<MedecinRegester/>} />
             <Route path="/SendVerificationCode" element={<SendVerificationCode />} />
-            
+            <Route path="Profile" element={
+              // decoded?.role==="medecins"?<ProfileMedecin id={decoded.id}/>:
+              decoded?.role==="medecins"?<MedicalProfileTabs id={decoded.id}/>:
+              decoded?.role==="patient"?<ProfilePatient id={decoded.id}/>:
+              <LoginPatient/>
+              }/> 
+              <Route path="/medecin-generaliste" element={<Medecin_generaliste/>}/>
           </Routes>
                 <ToastContainer position="top-center" autoClose={2500} />
 
         </Layout>
       </div>
     </Router>
-  );
+  );     
 }
 export default App;

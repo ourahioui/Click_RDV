@@ -16,6 +16,11 @@ const Hero = ({ onSearch }) => {
     e.preventDefault();
     try {
       if(form.ville!=="" || form.specialite!=="") {
+    
+      dispatch(setSearchData(form)); // enregistre dans Redux
+      
+      navigate('/doctors');
+    }
 
         navigate('/doctors?specialite=' + form.specialite + '&ville=' + form.ville);
       }

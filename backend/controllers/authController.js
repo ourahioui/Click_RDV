@@ -41,6 +41,18 @@ const storeCode = (email, code) => {
        connection.query("delete from codes where email=?",[email]) ;
 }
 
+export   async function sendVerificationCode  (req, res){
+ 
+    const { email } = req.body;
+   
+    const codegenerated = generateNumericCode(); // Génère un code à 6 chiffres
+    deleteCodeFromDb(email)
+    await storeCode( email , codegenerated)
+    const subject='Code de vérification' ; 
+    await sendVerificationEmail(email,codegenerated,subject);
+  return res.status(201).json(codegenerated) ; 
+   
+};
 export async function sendVerificationCode(req, res) {
   try {
     const { email } = req.body;
@@ -109,7 +121,7 @@ export function verifyCode(req, res) {
         }
         deleteCodeFromDb( email) ;
         // return res.status(201).json(results) ;
-         const token = jwt.sign({email:  email,id: results.insertId  }, process.env.JWT_SECRET,{expiresIn: "1h",})
+         const token = jwt.sign({email:  email,id: results.insertId  ,role:'patient'}, process.env.JWT_SECRET,{expiresIn: "1h",})
         return res.status(201).json({ email:  email ,token:token});
     })
   }
@@ -118,8 +130,8 @@ export function verifyCode(req, res) {
 export async  function registerMedecin(req, res) {
  
 
-    const { nom, prenom, email, password, tel, experience, specialite } = req.body;
-    const photo = req.file ? req.file.filename : null;
+    const { nom, prenom, email, password, tel, experience, specialite , } = req.body;
+    const photo = req.file ? req.file.filename : null ;
     
     if (!password) {
       return res.status(400).json({ error: 'Mot de passe requis' });
@@ -127,7 +139,7 @@ export async  function registerMedecin(req, res) {
 
     const hashedPassword = await hashPassword(password);
 
-    const sql = `INSERT INTO medecins(nom, prenom, email, telephone, password, specialite, ville, experience, img_url)
+    const sql = `INSERT INTO medecins(nom, prenom, email, tel, password, specialite, ville, experience, photo)
                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
     connection.query(sql, [
@@ -139,9 +151,9 @@ export async  function registerMedecin(req, res) {
         return res.status(500).json({ error: "Erreur lors de l'ajout du médecin" });
       }
       deleteCodeFromDb(email);
-      const token = jwt.sign({ email, id: results.insertId }, process.env.JWT_SECRET, { expiresIn: "1h" });
-
-      return res.status(201).json({ email, token });
+      const token = jwt.sign({ email, id: results.insertId ,role:'medecins'}, process.env.JWT_SECRET, { expiresIn: "1h" });
+     
+      return res.status(201).json({ email:email, token:token });
     });
  }
 
@@ -176,7 +188,7 @@ export async function LoginPatient(req, res) {
     }
 
     const token = jwt.sign(
-      { email: data.email, id: data.id },process.env.JWT_SECRET,{ expiresIn: "1h" }
+      { email: data.email, id: data.id ,role:SearchTable},process.env.JWT_SECRET,{ expiresIn: "1h" }
     );
     
     return res.status(200).json({ token });

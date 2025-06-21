@@ -1,5 +1,6 @@
 import MedecinModel from '../models/MedecinModel.js';
 
+import bcrypt from 'bcrypt' ;
 const MedecinController = {
 async search(req, res) {
     try {
@@ -29,18 +30,36 @@ async search(req, res) {
     } catch (err) {
       res.status(500).json({ error: 'Erreur lors de l’ajout' });
     }
-  },
-
+  }
+  , 
   async update(req, res) {
     try {
-      const updated = await MedecinModel.update(req.params.id, req.body);
+      const {id} = req.body ; 
+      const photo = req.file ? req.file.filename : req.body.photo ;
+      req.body.photo  = photo  ;
+
+      if(!req.body.password.startsWith('$2b$'))
+      {
+           
+          req.body.password = await MedecinController.hashPassword(req.body.password) ;
+          console.log("hashe avec succès !");
+      }
+      
+      const updated = await MedecinModel.update(id, req.body);
       if (!updated) return res.status(404).json({ error: 'Médecin non trouvé' });
       res.json({ message: 'Médecin mis à jour' });
     } catch (err) {
       res.status(500).json({ error: 'Erreur lors de la mise à jour' });
     }
   },
-
+  
+   async  hashPassword(password)
+   {
+      const salt = 10 ; 
+      const pass =  await bcrypt.hash(password,salt) ;  
+      return pass ; 
+   } ,
+   
   async delete(req, res) {
     try {
       const deleted = await MedecinModel.delete(req.params.id);

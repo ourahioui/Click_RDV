@@ -6,8 +6,9 @@ import { FiUser, FiMail, FiPhone, FiLock, FiCalendar, FiArrowRight } from 'react
 import {useNavigate} from 'react-router-dom' ;
 // import SendVerificationCode from '../components/SendVerificationCode.js' ; 
 import SendVerificationCode from './SendVerificationCode.js' ; 
+import {useEffect} from 'react' ;
 
-export default function PatientRegisterForm() {
+export default function PatientRegisterForm({isEdit,header,id}) {
   const [formData, setFormData] = useState({
     nom: '',
     prenom:'' , 
@@ -20,6 +21,29 @@ export default function PatientRegisterForm() {
   });
    const [SubmitButton , setSubmitButton] = useState(false) ; 
    const navigate = useNavigate() ; 
+
+ useEffect(() => {
+  const fetchData = async () => {
+    console.log(id);
+    const response = await fetch('http://localhost:5000/patient/getUserById', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ id: id }),
+    });
+
+    if (response.ok) {
+      const data = await response.json(); // ⬅️ await ici !
+      setFormData(data);
+    } else {
+      console.error("Erreur lors de la récupération des données");
+    }
+  };
+
+  fetchData(); // ⬅️ on appelle la fonction
+}, [id]); // Tu peux ajouter `id` dans les dépendances si c’est une variable d’état
+
 
 function validateForm()
 {
@@ -48,9 +72,11 @@ function validateForm()
 }
 
 const handleSubmit = async (e)=>{
+ 
     e.preventDefault() ; 
      if(validateForm())
      {
+               setSubmitButton(true) ; 
               navigate('/SendVerificationCode', { state: formData });
                  
             try {
@@ -74,7 +100,32 @@ const handleSubmit = async (e)=>{
    };
  
 
-
+const handleMettreAjour = async (e)=>{
+  e.preventDefault() ; 
+   if(validateForm())
+   {
+      setSubmitButton(true) ; 
+      const response = await fetch("http://localhost:5000/patient/UpdateProfile",{
+        method:'POST',
+        headers:{
+          'Content-Type' :'application/json' ,
+        } ,
+        body:JSON.stringify({id,data:formData}) ,
+      }) ; 
+      
+      if(response.ok)
+      {
+        alert("mettre a jour avec success" ) ; 
+         window.location.reload() ; 
+      }
+      else
+      {
+         alert("err de mettre a jour  " ) ; 
+      }
+        setSubmitButton(false ) ; 
+      
+   }
+}
 
 
 const handleChange =(e)=>{
@@ -92,7 +143,7 @@ return (
       <div className={styles.header}>
         {/* <MedicalIcon className={styles.logo} /> */}
         <h1>Espace Santé Connectée</h1>
-        <p>Créez votre accès sécurisé</p>
+        <p>{header?header:'Créez votre accès sécurisé'}</p>
       </div>
 
       <form className={styles.form}>
@@ -108,6 +159,7 @@ return (
               className={styles.inputField}
               name="nom"
               onChange={handleChange}
+              value={formData.nom}
 
               
             />
@@ -123,7 +175,7 @@ return (
               className={styles.inputField}
               name="prenom"
               onChange={handleChange}
-
+              value={formData.prenom}
             />
           </label>
         </div>
@@ -138,12 +190,14 @@ return (
                 required
                 className={styles.inputField}
                 name="email"
-                 onChange={handleChange}
+                onChange={handleChange}
+                value={formData.email}
 
               />
             </label>
           </div>
-
+           </div>
+         <div className={styles.formRow}>
           <div className={styles.formGroup}>
             <label>
               <FiPhone className={styles.inputIcon} />
@@ -154,13 +208,14 @@ return (
                 pattern="[0-9]{10}"
                 name="tel"
                  onChange={handleChange}
-
+                  value={formData.tel}
               />
             </label>
           </div>
         </div>
 
-        <div className={styles.formRow}>
+       {!isEdit?
+          (<div className={styles.formRow}>
                   <div className={styles.formGroup}>
                     <label>
                       <FiLock className={styles.inputIcon} />
@@ -172,11 +227,32 @@ return (
                         minLength="8"
                         name="password"
                         onChange={handleChange}
+                         value={formData.password}
+                      />
+                    </label>
+                  </div>
+ 
+         </div>) : 
+        <div className={styles.formRow}>
+                  <div className={styles.formGroup}>
+                    <label>
+                      <FiLock className={styles.inputIcon} />
+                      <input
+                        type="password"
+                        placeholder="New password"
+                        required
+                        className={styles.inputField}
+                        minLength="8"
+                        name="password"
+                        onChange={handleChange}
+                        //  value={formData.password}
                       />
                     </label>
                   </div>
  
         </div>
+       }
+        
 
          
 
@@ -186,10 +262,17 @@ return (
           <FiArrowRight className={styles.buttonIcon} />
         </button>
         :
+         isEdit ? 
+         <button type="submit" className={styles.submitButton} onClick={handleMettreAjour}>
+          {isEdit}
+          <FiArrowRight className={styles.buttonIcon} />
+         </button>
+         :
          <button type="submit" className={styles.submitButton} onClick={handleSubmit}>
           Créer mon compte
           <FiArrowRight className={styles.buttonIcon} />
-        </button>
+         </button>
+
         }
 
                                                       
