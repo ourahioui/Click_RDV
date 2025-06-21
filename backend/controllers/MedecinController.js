@@ -1,15 +1,16 @@
 import MedecinModel from '../models/MedecinModel.js';
 
 const MedecinController = {
-  async search(req, res) {
+async search(req, res) {
     try {
       const medecins = await MedecinModel.search(req.query);
       res.json(medecins);
     } catch (err) {
+      console.error('Erreur lors de la recherche de médecins:', err);
       res.status(500).json({ error: 'Erreur lors de la recherche' });
     }
   },
-  
+
 
   async getById(req, res) {
     try {

@@ -14,6 +14,8 @@ import MedecinRegester from './components/MedecinRegister'  ;
 import SendVerificationCode from './components/SendVerificationCode';
 import LoginMedecin from './components/LoginMedecin' ; 
 import LoginPatient from './components/loginPatient';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
   return (
     <Router>
@@ -30,6 +32,8 @@ function App() {
             <Route path="/SendVerificationCode" element={<SendVerificationCode />} />
             
           </Routes>
+                <ToastContainer position="top-center" autoClose={2500} />
+
         </Layout>
       </div>
     </Router>

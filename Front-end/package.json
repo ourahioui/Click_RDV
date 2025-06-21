@@ -16,6 +16,7 @@
     "bootstrap": "^5.3.6",
     "fortawesome": "^0.0.1-security",
     "jwt-decode": "^4.0.0",
+    "moment": "^2.30.1",
     "multer": "^2.0.0",
     "react": "^19.1.0",
     "react-bootstrap": "^2.10.10",
@@ -25,6 +26,7 @@
     "react-router-bootstrap": "^0.26.3",
     "react-router-dom": "^7.6.0",
     "react-scripts": "5.0.1",
+    "react-toastify": "^11.0.5",
     "sass": "^1.89.0",
     "sass-loader": "^16.0.5",
     "web-vitals": "^2.1.4"

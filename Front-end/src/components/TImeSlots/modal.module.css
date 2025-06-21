@@ -1,0 +1,5 @@
+/* modalCustom.module.css */
+.customModalWidth .modal-dialog {
+  max-width: 700px !important;
+  width: 700px !important;
+}

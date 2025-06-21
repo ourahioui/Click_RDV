@@ -3,16 +3,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt, faSearch, faFilter, faSortAmountDown } from '@fortawesome/free-solid-svg-icons';
 import styles from './SearchSection.module.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Ensure Bootstrap JS is imported for dropdowns and other components
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { setSearchData } from '../../redux/store';
+import { useState , useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const SearchSection = ({ onSearch }) => {
   const primaryColor = '#2AA7FF';
   const [form, setForm] = useState({specialite: "", ville: "" });
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -22,14 +19,39 @@ const SearchSection = ({ onSearch }) => {
 const handleSearchClick = async (e) => {
   e.preventDefault();
   try {
- 
-    dispatch(setSearchData(form));
-    navigate('/doctors'); // redirection vers la page résultats
+    if(form.ville !== "" || form.specialite !== "") {
+    navigate('/doctors?specialite=' + form.specialite + '&ville=' + form.ville); 
+  } // redirection vers la page résultats
   } catch (err) {
     console.error(err);
   }
 }
+  const [villes, setVilles] = useState([]);
+  const [specialites, setSpecialites] = useState([]);
 
+  useEffect(() => {
+    // Remplacez les URLs par vos vraies API
+    const fetchVilles = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/villes');
+        setVilles(response.data);
+      } catch (err) {
+        console.error('Erreur lors de la récupération des villes:', err);
+      }
+    };
+
+    const fetchSpecialites = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/specialites');
+        setSpecialites(response.data);
+      } catch (err) {
+        console.error('Erreur lors de la récupération des spécialités:', err);
+      }
+    };
+
+    fetchVilles();
+    fetchSpecialites();
+  }, []);
 
   return (
     <div className={styles.searchBackground}>
@@ -40,20 +62,44 @@ const handleSearchClick = async (e) => {
             <div className="col-lg-4 col-md-6">
               <div className="input-group">
                 <span className={`input-group-text ${styles.inputGroupText}`}><FontAwesomeIcon icon={faMapMarkerAlt} /></span>
-                <input type="text" className={`form-control ${styles.formControl}`} placeholder="Location" aria-label="Search criteria" name='ville' value={form.ville} onChange={handleChange} />
+                <select
+                  className={`form-control ${styles.formControl}`}
+                  name="ville"
+                  value={form.ville}
+                  onChange={handleChange}
+                >
+                  <option value="">Sélectionnez une spécialité</option>
+                  {villes.map((ville) => (
+                    <option key={ville.id} value={ville.ville}>
+                      {ville.ville}
+                    </option>
+                  ))}
+                </select>
 
               </div>
             </div>
 
-            {/* Search Input */}
+            {/* Specialité Dropdown */}
             <div className="col-lg-5 col-md-6">
               <div className="input-group">
-                <span className={`input-group-text ${styles.inputGroupText}`}><FontAwesomeIcon icon={faSearch} /></span>
-                <input type="text" className={`form-control ${styles.formControl}`} placeholder="Médecin, hôpital" aria-label="Search criteria" name='specialite' value={form.specialite} onChange={handleChange} />
+                <span className={`input-group-text ${styles.inputGroupText}`}>
+                  <FontAwesomeIcon icon={faSearch} />
+                </span>
+                <select
+                  className={`form-control ${styles.formControl}`}
+                  name="specialite"
+                  value={form.specialite}
+                  onChange={handleChange}
+                >
+                  <option value="">Sélectionnez une spécialité</option>
+                  {specialites.map((spec) => (
+                    <option key={spec.id} value={spec.specialite}>
+                      {spec.specialite}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
-
-            {/* Search Button */}
             <div className="col-lg-3 col-md-12">
               <button
                 type="submit"
