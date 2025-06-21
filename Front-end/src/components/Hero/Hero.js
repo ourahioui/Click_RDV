@@ -1,14 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import styles from './Hero.module.css';
 import { Container, Row, Form, Col, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setSearchData } from '../../redux/store';
-import { useSelector } from 'react-redux';
+import axios from "axios";
 
 const Hero = ({ onSearch }) => {
   const [form, setForm] = useState({ ville: "", specialite: "" });
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   
   const handleChange = (e) => {
@@ -19,11 +16,9 @@ const Hero = ({ onSearch }) => {
     e.preventDefault();
     try {
       if(form.ville!=="" || form.specialite!=="") {
-    
-      dispatch(setSearchData(form)); // enregistre dans Redux
 
-      navigate('/doctors');
-    }
+        navigate('/doctors?specialite=' + form.specialite + '&ville=' + form.ville);
+      }
       else {
         alert("Veuillez remplir au moins un champ de recherche.");
       }
@@ -32,6 +27,33 @@ const Hero = ({ onSearch }) => {
       console.error("Erreur :", err);
     }
   };
+
+  const [villes, setVilles] = useState([]);
+  const [specialites, setSpecialites] = useState([]);
+
+  useEffect(() => {
+    // Remplacez les URLs par vos vraies API
+    const fetchVilles = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/villes');
+        setVilles(response.data);
+      } catch (err) {
+        console.error('Erreur lors de la récupération des villes:', err);
+      }
+    };
+
+    const fetchSpecialites = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/specialites');
+        setSpecialites(response.data);
+      } catch (err) {
+        console.error('Erreur lors de la récupération des spécialités:', err);
+      }
+    };
+
+    fetchVilles();
+    fetchSpecialites();
+  }, []);
 
 
 
@@ -67,27 +89,37 @@ const Hero = ({ onSearch }) => {
                 <Col md={5} className="mb-3 mb-md-0">
                   <div className="position-relative">
                     <i className={`fas fa-search ${styles.inputIcon}`}></i>
-                    <Form.Control 
-                      type="text" 
-                      placeholder="Spécialité" 
+                    <Form.Select
                       className={styles.searchInput}
                       name="specialite"
                       onChange={handleChange}
                       value={form.specialite}
-                    />
+                    >
+                      <option value="">Spécialité</option>
+                      {specialites.map((spec, idx) => (
+                        <option key={idx} value={spec.specialite}>
+                          {spec.specialite}
+                        </option>
+                      ))}
+                    </Form.Select>
                   </div>
                 </Col>
                 <Col md={5} className="mb-3 mb-md-0">
                   <div className="position-relative">
                     <i className={`fas fa-map-marker-alt ${styles.inputIcon}`}></i>
-                    <Form.Control 
-                      type="text" 
-                      placeholder="Localisation" 
+                    <Form.Select
                       className={styles.searchInput}
                       name="ville"
                       onChange={handleChange}
                       value={form.ville}
-                    />
+                    >
+                      <option value="">Ville</option>
+                      {villes.map((ville, idx) => (
+                        <option key={idx} value={ville.ville}>
+                          {ville.ville}
+                        </option>
+                      ))}
+                    </Form.Select>
                   </div>
                 </Col>
                 <Col md={2}>

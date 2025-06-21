@@ -12,7 +12,7 @@ import multer from 'multer';
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '',
+  password: 'ibrahimKHANTACH2004',
   database: 'rdv'
 });
 // Stocker les codes en base de données
@@ -41,31 +41,31 @@ const storeCode = (email, code) => {
        connection.query("delete from codes where email=?",[email]) ;
 }
 
-export   async function sendVerificationCode  (req, res){
-  // try {
+export async function sendVerificationCode(req, res) {
+  try {
     const { email } = req.body;
-    //verifier si l'email est deja utilise
-    
-    const codegenerated = generateNumericCode(); // Génère un code à 6 chiffres
-    deleteCodeFromDb(email)
-    await storeCode( email , codegenerated)
-//     if (err) {
-//     return res.status(500).json({ error: "Erreur d'enregistrement du code" });
-//     }
-//   return res.json({ message: "Code envoyé avec succès !" });
-   
-// });
 
-    await sendVerificationEmail(email,codegenerated);
-    
-    // res.json({ success: true });
-  // } catch (error) {
-  //   res.status(500).json({ error: "Erreur d'envoi du code" });
-  // }
+    // Vérifier si l'email est valide (optionnel)
+    if (!email) {
+      return res.status(400).json({ error: "Email is required" });
+    }
 
-  return res.status(201).json(codegenerated) ; 
-   
-};
+    // Générer et enregistrer le code
+    const codegenerated = generateNumericCode();
+    await deleteCodeFromDb(email);
+    await storeCode(email, codegenerated);
+
+    // Envoyer l'email
+    await sendVerificationEmail(email, codegenerated);
+
+    // Réponse OK
+    return res.status(201).json({ message: "Code envoyé avec succès !" });
+  } catch (error) {
+    console.error("Erreur dans sendVerificationCode:", error);
+    return res.status(500).json({ error: "Erreur d'envoi du code" });
+  }
+}
+
 
 
 

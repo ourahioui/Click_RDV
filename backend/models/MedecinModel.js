@@ -2,9 +2,12 @@ import db from '../db.js';
 
 const MedecinModel = {
   search({ specialite, ville }) {
-    let query = db('medecins');
+    let query = db('medecins').join('specialites', 'medecins.specialiteID', 'specialites.id')
+    .join("villes","medecins.villeID", "villes.id");
+    
     if (specialite) query.where('specialite', 'like', `%${specialite}%`);
     if (ville) query.where('ville', 'like', `%${ville}%`);
+    query.select('medecins.*', 'specialites.specialite', 'villes.ville');
     return query;
   },
 

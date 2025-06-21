@@ -1,26 +1,31 @@
-/* TimeSlots.module.css */
-
 .timeSlotsCard {
   border: 1px solid #dee2e6;
   border-radius: 0.375rem;
-  margin-top: 1rem; /* Add space above the time slots section */
+  margin-top: 1rem;
   box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  background-color: white;
 }
 
 .cardHeader {
-  background-color: #f8f9fa; /* Light background for header */
+  background-color: #f8f9fa;
   border-bottom: 1px solid #dee2e6;
-  padding: 0.75rem 1rem;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .navButton {
-  color: #6c757d; /* Muted color for arrows */
-  padding: 0.25rem 0.5rem;
-  text-decoration: none;
+  color: #6c757d;
+  font-size: 1.2rem;
+  background: none;
+  border: none;
 }
 
 .navButton:hover {
-  color: #2AA7FF; /* Primary color on hover */
+  color: #2AA7FF;
 }
 
 .dayInfo {
@@ -31,67 +36,49 @@
 .dayLabel {
   font-weight: 600;
   color: #343a40;
+  font-size: 1rem;
 }
 
 .dayDate {
-    font-size: 0.9em;
-    color: #6c757d;
-}
-
-.availabilityCount {
-  display: block; /* Put availability on a new line */
-  font-size: 0.8em;
-  color: #28a745; /* Green color for availability */
-  margin-top: 0.1rem;
+  font-size: 0.9em;
+  color: #6c757d;
 }
 
 .cardBody {
   padding: 1rem;
+  overflow-x: auto;
 }
 
-.periodTitle {
+.table {
+  min-width: 600px;
+}
+
+.noAvailability {
+  color: #ccc;
+  font-style: italic;
   font-size: 0.9rem;
-  font-weight: 600;
-  color: #495057;
-  margin-bottom: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
-.slotsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); /* Responsive grid */
-  gap: 0.5rem;
-}
-
-.timeSlotButton {
-  font-size: 0.85rem;
-  padding: 0.3rem 0.6rem;
-  border-color: #2AA7FF;
-  color: #2AA7FF;
-  background-color: white;
-  transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out;
-}
-
-.timeSlotButton:hover,
-.timeSlotButton:focus {
-  background-color: #2AA7FF;
-  color: white;
-  border-color: #2AA7FF;
-  box-shadow: none; /* Remove focus shadow if desired */
-}
-
-/* Adjustments for smaller screens if needed */
-@media (max-width: 575.98px) {
-  .slotsGrid {
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); /* Slightly smaller buttons */
+/* Mobile adjustments */
+@media (max-width: 576px) {
+  .table {
+    min-width: 500px;
   }
+
+  .cardHeader {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .navButton {
+    font-size: 1.5rem;
+  }
+
   .dayLabel {
-      font-size: 0.95rem;
+    font-size: 0.95rem;
   }
-  .cardHeader,
-  .cardBody {
-      padding: 0.75rem;
+
+  .dayDate {
+    font-size: 0.85rem;
   }
 }
-
