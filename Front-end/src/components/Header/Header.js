@@ -11,27 +11,39 @@ import { FiUser, FiMail, FiPhone, FiLock, FiCalendar, FiArrowRight } from 'react
 const Header = () => {
   const [Data,setData] = useState() ;
   const [reloadPage,setreloadPage] = useState() ;
-  useEffect(()=>{
-    // window.location.reload();
   
+useEffect(() => {
+  // if (localStorage.getItem("reloadAcceuille") === "true") {
+  //   console.log("🔁 Rechargement de la page d'accueil...");
+  //   localStorage.removeItem("reloadAcceuille");
+  //   window.location.reload();
+  // }
 
-    if (localStorage.getItem("reloadAcceuille") === "true") {
-      console.log("🔁 Rechargement de la page d'accueil...");
-      localStorage.removeItem("reloadAcceuille"); // Supprimer au lieu de mettre à "false"
-      window.location.reload();
+  const token = localStorage.getItem("token");
+  if (token) {
+    try {
+      const decoded = jwtDecode(token);
+      setData(decoded);
+    } catch (error) {
+      console.error("Erreur lors du décodage du token :", error);
     }
-    const token = localStorage.getItem("token");
-    if (token) {
-      try {
-        const decoded = jwtDecode(token);
-        setData(decoded);
-      } catch (error) {
-        console.error("Erreur lors du décodage du token :", error);
-      }
-    }
-    
-    // console.log(decoded);
-  },[])
+  }
+
+
+
+
+
+
+
+
+  //  const handleAuthChange = () => {
+  //   window.location.reload();
+  // };
+   
+  //  window.addEventListener('authChange', handleAuthChange);
+  //   return () => window.removeEventListener('authChange', handleAuthChange);
+}, []);
+
   return (
     <header>
       
@@ -86,19 +98,20 @@ const Header = () => {
               </Nav.Link>
               
 
-              {Data &&
-              (<Nav.Link 
-                  as={Link} 
-                  to="/Profile" 
-                  className={`mx-2 ${styles.navLink}`}
-                  aria-label="Accéder au profil"
-                >
-              <div className={styles.profileLinkContent}>
-                <FiUser className={styles.profileIcon} />
-                <span className={styles.profileText}>Profile</span>
-              </div>
-            </Nav.Link>
-              )}
+             {Data && 
+              <Nav.Link 
+                as={Link} 
+                to="/Profile" 
+                className={`mx-2 ${styles.navLink}`}
+                aria-label="Accéder au profil"
+              >
+                <div className={styles.profileLinkContent}>
+                  <FiUser className={styles.profileIcon} />
+                  <span className={styles.profileText}>Profile</span>
+                </div>
+              </Nav.Link>
+            }
+
               
 
             </div>

@@ -3,13 +3,15 @@ import {useNavigate,useLocation} from 'react-router-dom' ;
 // import { sendCode, verifyCode } from '../services/api';
 // import './styles/Verification.css';
 import { jwtDecode } from 'jwt-decode';
+
+
 export default function  SendVerificationCode  () {
     const [code, setCode] = useState('');
     const [countdown, setCountdown] = useState(0);
-
+   
     const location = useLocation();
     const formData = location.state;
-    console.log("ibrahim",formData) ; 
+    // console.log("ibrahim",formData) ; 
     // console.log("ibrahim",formData.nom) ; 
 
     const navigate = useNavigate() ;
@@ -75,7 +77,9 @@ const handleSubmit = async (e) => {
        localStorage.setItem("reloadAcceuille","true") ;
       console.log(localStorage.getItem("reloadAcceuille"))
       alert("Compte créé avec succès") ; 
-      navigate("/") ; 
+      
+      navigate("/", { replace: true });
+      window.location.reload();
     }
     }
 
@@ -100,8 +104,11 @@ const handleSubmit = async (e) => {
       const token = localStorage.getItem("token");
       const decoded = jwtDecode(token);
      console.log(decoded);
-
+  
       alert("Compte créé avec succès") ; 
+      localStorage.setItem("reloadAcceuille","true") ;
+      navigate("/", { replace: true });
+      window.location.reload();
       navigate("/") ; 
     }
 

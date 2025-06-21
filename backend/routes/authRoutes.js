@@ -89,7 +89,6 @@ const upload = multer({  storage });
 
  // Route
 router.post('/register-medecin', upload.single('photo'),registerMedecin );
-
 router.post('/send-code', sendVerificationCode);
 router.post('/verify-code', verifyCode);
 router.post('/register-patient',registerPatient) ; 

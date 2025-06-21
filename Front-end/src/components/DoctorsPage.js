@@ -14,7 +14,7 @@ function DoctorPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [doctors, setDoctors] = useState([]);
   const doctorsPerPage = 4;
-
+  
 
   const availableDaysData = [
     {
@@ -54,7 +54,7 @@ function DoctorPage() {
   const indexOfFirstDoctor = indexOfLastDoctor - doctorsPerPage;
   const currentDoctors = doctors.slice(indexOfFirstDoctor, indexOfLastDoctor);
   const searchData = useSelector((state) => state.search);
-
+         
   useEffect(() => {
     async function fetchDoctors() {
       try {
@@ -80,7 +80,8 @@ function DoctorPage() {
     setDoctors(resultats);
     setCurrentPage(1);
   };
-
+ 
+ 
   return (
     <div className={styles.appContainer}>
       <SearchSection  />
@@ -93,13 +94,14 @@ function DoctorPage() {
             Prenez rendez-vous avec un temps d'attente minimum et des coordonnées de médecin vérifiées
           </p>
         </div>
-
+     
         {doctors.length === 0 ? (
           <p>Aucun médecin trouvé.</p>
         ) : (
           currentDoctors.map((doctor, index) => (
-            <React.Fragment key={index}>
-              <DoctorCard doctor={doctor} />
+           
+            <React.Fragment key={index} >
+              <DoctorCard doctor={doctor}   />
               {index === 0 && <TimeSlots availableDays={availableDaysData} />}
             </React.Fragment>
           ))
