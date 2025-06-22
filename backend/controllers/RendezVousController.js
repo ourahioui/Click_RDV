@@ -1,5 +1,6 @@
 import RendezVousModel from '../models/RendezVousModel.js' ; 
 import sendVerificationEmail from '../utils/emailSender.js' ; 
+import db from '../db.js' ;
 const RendezVousController = {
     async DemandesEnAttente(req,res)
     {
@@ -109,6 +110,17 @@ remove: async (req, res) => {
         res.status(500).json({ message: 'Erreur serveur', error: err });
     }
 },
+getByPatientId: async (req, res) => {
+    try {
+        const rendezVous = await RendezVousModel.getByPatientId(req.params.id);
+        if (!rendezVous) return res.status(404).json({ message: 'Non trouvé' });
+        res.json(rendezVous);
+    } catch (err) {
+        console.error("Erreur lors de la récupération des rendez-vous par patient ID :", err);
+        res.status(500).json({ message: 'Erreur serveur', error: err });
+    }
+}
+
 
 }
  

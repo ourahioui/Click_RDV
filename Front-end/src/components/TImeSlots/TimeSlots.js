@@ -38,7 +38,7 @@ export default function Disponibilites({ medecinId }) {
 
   useEffect(() => {
     if (medecinId) fetchDisponibilites();
-  });
+  },[]);
 
 
   useEffect(() => {

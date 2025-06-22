@@ -146,7 +146,7 @@ const handleLanguesChange = (e) => {
     function validateForm()
     {
            console.log(formData) ;
-            if(!formData.nom || !formData.prenom || !formData.email || (!isEdit && !formData.password) || !formData.tel   || !formData.specialiteId || formData.photo===null)
+            if(!formData.nom || !formData.prenom || !formData.email || (!isEdit && !formData.password) ||!formData.tel || !formData.experience || !formData.specialiteId || formData.photo===null)
             {
             alert("Veuillez remplir tous les champs.");
             return false ; 
@@ -493,6 +493,26 @@ const handleMettreAjour = async (e)=>{
           <label>
     <select
       name="specialiteId"
+      className={styles.inputField}
+      onChange={handleChange}
+      required 
+      value={formData.specialiteId}
+    >
+       <option value=""> Sélectionnez une spécialité</option>
+      {
+        Specialites.map((e)=>(
+             <option value={e.id}>{e.specialite}</option>
+        ))
+      }
+     
+    </select>
+     <select
+      name="villeId"
+      className={styles.inputField}
+      onChange={handleChange}
+      required 
+      value={formData.villeId}
+    >
       className={styles.inputField}
       onChange={handleChange}
       required 

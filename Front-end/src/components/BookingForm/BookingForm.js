@@ -69,7 +69,7 @@ export default function BookingForm({ date, heureDebut, medecinId, user, onCance
     }
 
     try {
-      await axios.post('http://localhost:5000/api/rendez-vous', {
+      await axios.post('http://localhost:5000/RendezVous', {
         medecinId,
         patientId: user.id,
         date,

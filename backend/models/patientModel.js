@@ -1,3 +1,4 @@
+import { getById } from '../controllers/PatientController.js';
 import db from '../db.js';
 
 const PatientModel = {
@@ -15,6 +16,7 @@ const PatientModel = {
   delete(id) {
     return db('patient').where({ id }).del();
   },
+
   getPatient(id) {
     return db('patient').where({ id }).first();
   }
@@ -22,3 +24,4 @@ const PatientModel = {
 };
 
 export default PatientModel;
+

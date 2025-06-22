@@ -18,7 +18,7 @@
 
 .doctorImage {
   max-width: 100px;
-  height: auto;
+  height: 100px;
   border: 3px solid #fff; /* Optional: white border around image */
   box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for image */
 }

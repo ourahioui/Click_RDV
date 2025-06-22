@@ -3,7 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle, faThumbsUp, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
 import styles from './DoctorCard.module.css';
 import { useNavigate } from 'react-router-dom';
-import Timeslots from "../TImeSlots/TimeSlots.js";
+import TimeSlots from '../TImeSlots/TimeSlots'; // Import the TimeSlots component
+// Placeholder for TimeSlots component - to be implemented later
+
+
 
 const DoctorCard = ({ doctor }) => {
   const [showTimeSlots, setShowTimeSlots] = useState(false);
@@ -11,20 +14,37 @@ const DoctorCard = ({ doctor }) => {
   const greenColor = '#28a745';
   const navigate = useNavigate();
 
+  // Gestion de l'image du médecin
+  const imageUrl =
+    doctor.photo
+      ? `http://localhost:5000/uploads/${doctor.photo}`
+      : doctor.img_url || doctor.imageUrl || 'https://via.placeholder.com/100';
+
+  // Navigation vers la page du médecin
   const handleClick = () => {
     navigate('/medecin-generaliste', { state: doctor });
-  };
+
 
   // Handle image URL safely
   const getImageUrl = () => {
     if (doctor.photo) return `http://localhost:5000/uploads/${doctor.photo}`;
     return doctor.img_url || doctor.imageUrl || 'https://via.placeholder.com/100';
+
   };
 
   return (
     <div className={`card mb-4 ${styles.doctorCard}`}>
       <div className="row g-0">
         {/* Image Column */}
+        <div
+          className={`col-md-2 d-flex align-items-center justify-content-center ${styles.imageContainer}`}
+          onClick={handleClick}
+          style={{ cursor: 'pointer' }}
+        >
+          <img
+            src={imageUrl}
+            className={`img-fluid rounded-circle ${styles.doctorImage}`}
+            alt={`Dr. ${doctor.nom || doctor.name}`}
         <div 
           className={`col-md-2 d-flex align-items-center justify-content-center ${styles.imageContainer}`} 
           onClick={handleClick}
@@ -39,6 +59,14 @@ const DoctorCard = ({ doctor }) => {
         </div>
 
         {/* Details Column */}
+        <div className="col-md-7" onClick={handleClick} style={{ cursor: 'pointer' }}>
+          <div className="card-body">
+            <h5 className={`card-title ${styles.doctorName}`}>
+              Dr. {doctor.nom || doctor.name} {doctor.prenom}
+            </h5>
+            <p className={`card-text text-muted ${styles.doctorSpecialty}`}>
+              {doctor.specialite || doctor.specialty}
+            </p>
         <div 
           className="col-md-7" 
           onClick={handleClick}
@@ -91,7 +119,7 @@ const DoctorCard = ({ doctor }) => {
       
       {showTimeSlots && (
         <div className={`card-footer bg-transparent border-top-0 ${styles.timeSlotsFooter}`}>
-          <Timeslots medecinId={doctor.id} />
+          <TimeSlots medecinId={doctor.id} />
         </div>
       )}
     </div>

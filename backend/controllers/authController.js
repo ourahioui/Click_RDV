@@ -1,4 +1,3 @@
- 
 import  sendVerificationEmail  from '../utils/emailSender.js';
 import  generateNumericCode  from '../utils/generateCode.js';
 // import Code from '../models/codeModel.js'; 
@@ -10,10 +9,11 @@ import multer from 'multer';
  dotenv.config() ; 
 
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'rdv'
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
+
 });
 // Stocker les codes en base de données
 const storeCode = (email, code) => {
