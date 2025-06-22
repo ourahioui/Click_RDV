@@ -18,19 +18,22 @@ export default function MedecinRegister({isEdit,header,id})
     password: '',
     tel: '',
     experience: '',
-    specialite: '',
+    specialiteId: '',
+    villeId :'' , 
     photo: null,  
     languesParlees:'' ,
     adresse:'' , 
     role:'register-medecin'
     });
     const [SubmitButton , setSubmitButton] = useState(false) ; 
-    const [formDataPlus,setformDataPlus] = useState(
-      {
-        modesPaiement:"" ,
-        // languesParlees:""
-      }
-    ) ;
+    // const [formDataPlus,setformDataPlus] = useState(
+    //   {
+    //     modesPaiement:"" ,
+    //     // languesParlees:""
+    //   }
+    // ) ;
+    const [Specialites,setSpecialites] = useState([])  ; 
+    const [Villes,setVilles] = useState([])  ;
     const navigate = useNavigate() ;
     const fileInputRef = useRef(null);
   
@@ -39,7 +42,7 @@ export default function MedecinRegister({isEdit,header,id})
 //  ---------------------------------------------------------------------
     useEffect(()=>{
       const fetchData = async ()=>{
-         const response = await fetch('http://localhost:5000/api/medecins/'+id, {
+         let response = await fetch('http://localhost:5000/api/medecins/'+id, {
       method: "GET",
       headers: {
         'Content-Type': 'application/json'
@@ -53,6 +56,21 @@ export default function MedecinRegister({isEdit,header,id})
     } else {
       console.error("Erreur lors de la récupération des données");
     }
+    const specialites = await fetch("http://localhost:5000/api/specialites") ; 
+    if(specialites.ok)
+    {
+      const data = await specialites.json() ;
+      setSpecialites(data)  ;
+    }
+    const villes = await fetch("http://localhost:5000/api/villes") ; 
+    if(villes.ok)
+    {
+      const data = await villes.json() ;
+      setVilles(data)  ;
+    }
+
+    
+    
    
     }
     fetchData() ;
@@ -86,17 +104,7 @@ export default function MedecinRegister({isEdit,header,id})
 
     console.log(formData.photo) ; 
     };
-// ----------------------------------
-//     const handleLangueChange = (e) => {
-//   const value = e.target.value;
-//   const isChecked = e.target.checked;
-//   setFormData((prev) => ({
-//     ...prev,
-//     langues: isChecked
-//       ? [...prev.langues, value]
-//       : prev.langues.filter((langue) => langue !== value),
-//   }));
-// };
+
 // ------------------------------
  
 // const handleModesPaiementChange = (e) => {
@@ -139,7 +147,7 @@ const handleLanguesChange = (e) => {
     function validateForm()
     {
            console.log(formData) ;
-            if(!formData.nom || !formData.prenom || !formData.email || (!isEdit && !formData.password) ||!formData.tel || !formData.experience || !formData.specialite || formData.photo===null)
+            if(!formData.nom || !formData.prenom || !formData.email || (!isEdit && !formData.password) ||!formData.tel || !formData.experience || !formData.specialiteId || formData.photo===null)
             {
             alert("Veuillez remplir tous les champs.");
             return false ; 
@@ -218,7 +226,8 @@ const handleMettreAjour = async (e)=>{
         formDataToSend.append('password', formData.password);
         formDataToSend.append('tel', formData.tel);
         formDataToSend.append('experience', formData.experience);
-        formDataToSend.append('specialite', formData.specialite);
+        formDataToSend.append('specialiteId', formData.specialiteId);
+        formDataToSend.append('villeId',formData.villeId) ; 
         formDataToSend.append('photo', formData.photo);  
         formDataToSend.append('adresse',formData.adresse) ; 
         formDataToSend.append('tarif',formData.tarif) ; 
@@ -304,7 +313,7 @@ const handleMettreAjour = async (e)=>{
                   className={styles.inputField}
                   name="nom"
                   onChange={handleChange}
-                 value={formData.nom}
+                  value={formData.nom}
                   
                 />
               </label>
@@ -388,7 +397,7 @@ const handleMettreAjour = async (e)=>{
                             minLength="8"
                             name="password"
                             onChange={handleChange}
-                            // value={formData.password}
+                            
                           />
                         </label>
                       </div>
@@ -411,7 +420,7 @@ const handleMettreAjour = async (e)=>{
               <div>
                           <p>Languages parles</p>
                           <label>
-                          <input type="checkbox" name="languesParlees" value="Français"   checked={(formData.languesParlees || "").split(",").includes("Anglais")} onChange={handleLanguesChange}/>
+                          <input type="checkbox" name="languesParlees" value="Français"   checked={(formData.languesParlees || "").split(",").includes("Français")} onChange={handleLanguesChange}/>
                           Français
                         </label>
                         <label>
@@ -490,19 +499,34 @@ const handleMettreAjour = async (e)=>{
             <div className={styles.formGroup}>
           <label>
     <select
-      name="specialite"
+      name="specialiteId"
       className={styles.inputField}
       onChange={handleChange}
-      required
-      value={formData.specialite}
+      required 
+      value={formData.specialiteId}
     >
-      <option value="">-- Sélectionnez une spécialité --</option>
-      <option value="cardiologie">Cardiologie</option>
-      <option value="dermatologie">Dermatologie</option>
-      <option value="gynécologie">Gynécologie</option>
-      <option value="neurologie">Neurologie</option>
-      <option value="pédiatrie">Pédiatrie</option>
-      <option value="ophtalmologie">Ophtalmologie</option>
+       <option value=""> Sélectionnez une spécialité</option>
+      {
+        Specialites.map((e)=>(
+             <option value={e.id}>{e.specialite}</option>
+        ))
+      }
+     
+    </select>
+     <select
+      name="villeId"
+      className={styles.inputField}
+      onChange={handleChange}
+      required 
+      value={formData.villeId}
+    >
+       <option value=""> Sélectionnez une ville</option>
+      {
+        Villes.map((e)=>(
+             <option value={e.id}>{e.ville}</option>
+        ))
+      }
+     
     </select>
   </label>
 </div>

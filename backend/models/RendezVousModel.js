@@ -2,6 +2,29 @@ import db from '../db.js';
 
 const RendezVousModel = {
   
+  getAll: () => db('rendez_vous'),
+
+  getById: (id) => db('rendez_vous').where({ id }).first(),
+
+  create: async (data, trx = db) => {
+    return await trx('rendez_vous').insert(data);
+  },
+
+  update: (id, data) => db('rendez_vous').where({ id }).update(data),
+
+  delete: (id) => db('rendez_vous').where({ id }).del(),
+
+  getByPatientId: (patientId) => {
+    return db('rendez_vous')
+      .join('medecins', 'rendez_vous.medecinId', '=', 'medecins.id')
+      .select(
+        'rendez_vous.*',
+        'medecins.nom as medecinNom',
+        'medecins.prenom as medecinPrenom',
+        'medecins.email as medecinEmail'
+      )
+      .where({ patientId: patientId });
+  },
 
   DemandesEnAttente(id) {
    return db('rendez_vous')

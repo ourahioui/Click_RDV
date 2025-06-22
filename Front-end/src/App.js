@@ -20,6 +20,7 @@ import Medecin_generaliste from './components/Doctors/Medecin_generaliste' ;
 import MedicalProfileTabs from './components/MedicalProfileTabs.jsx' ; 
 import { jwtDecode } from 'jwt-decode';
 import { ToastContainer } from 'react-toastify';
+import Mes_rendez_vous from './components/mes_rendez_vous/mes_rendez_vous.js';
 import 'react-toastify/dist/ReactToastify.css';
 function App() {
    
@@ -42,15 +43,17 @@ function App() {
             <Route path="/PatientRegister" element={<PatientRegisterForm />} />
             <Route path="/MedecinRegester" element={<MedecinRegester/>} />
             <Route path="/SendVerificationCode" element={<SendVerificationCode />} />
-            <Route path="Profile" element={
+            <Route path="/Profile" element={
               // decoded?.role==="medecins"?<ProfileMedecin id={decoded.id}/>:
               decoded?.role==="medecins"?<MedicalProfileTabs id={decoded.id}/>:
               decoded?.role==="patient"?<ProfilePatient id={decoded.id}/>:
               <LoginPatient/>
               }/> 
               <Route path="/medecin-generaliste" element={<Medecin_generaliste/>}/>
+              <Route path="/mes-rendez-vous" element={<Mes_rendez_vous/>} />
           </Routes>
                 <ToastContainer position="top-center" autoClose={2500} />
+            
 
         </Layout>
       </div>

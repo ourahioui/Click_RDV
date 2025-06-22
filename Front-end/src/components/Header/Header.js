@@ -1,59 +1,42 @@
 import React from 'react';
 import styles from './Header.module.css';
-import { Container, Navbar, Nav, NavDropdown, Button  } from 'react-bootstrap';
+import { Container, Navbar, Nav, NavDropdown, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import {useState,useEffect} from 'react'  ;
+import { useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
-
-import { FiUser, FiMail, FiPhone, FiLock, FiCalendar, FiArrowRight } from 'react-icons/fi';
-// const   isLoggedIn = localStorage.getItem("") ; 
-
+import { FiUser, FiMail, FiPhone, FiLock, FiCalendar, FiArrowRight, FiLogOut } from 'react-icons/fi';
+import Image from 'react-bootstrap/Image';
 const Header = () => {
-  const [Data,setData] = useState() ;
-  const [reloadPage,setreloadPage] = useState() ;
+  const [Data, setData] = useState();
+  const [reloadPage, setreloadPage] = useState();
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   
-useEffect(() => {
-  // if (localStorage.getItem("reloadAcceuille") === "true") {
-  //   console.log("🔁 Rechargement de la page d'accueil...");
-  //   localStorage.removeItem("reloadAcceuille");
-  //   window.location.reload();
-  // }
-
-  const token = localStorage.getItem("token");
-  if (token) {
-    try {
-      const decoded = jwtDecode(token);
-      setData(decoded);
-    } catch (error) {
-      console.error("Erreur lors du décodage du token :", error);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        setData(decoded);
+      } catch (error) {
+        console.error("Erreur lors du décodage du token :", error);
+      }
     }
-  }
+  }, []);
 
-
-
-
-
-
-
-
-  //  const handleAuthChange = () => {
-  //   window.location.reload();
-  // };
-   
-  //  window.addEventListener('authChange', handleAuthChange);
-  //   return () => window.removeEventListener('authChange', handleAuthChange);
-}, []);
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("reloadAcceuille");
+    setData(null);
+    window.location.href = "/";
+  };
 
   return (
     <header>
-      
-      
       {/* Navigation principale */}
       <Navbar expand="lg" className={styles.header + " py-2"}>
         <Container>
           <Navbar.Brand as={Link} to="/" className={styles.logo}>
-            <i className="fas fa-calendar-alt me-2" style={{color: '#2AA7FF'}}></i>
-            ClickRDV
+            <Image src= "Images/Logo.png" alt="ClickRDV" />
           </Navbar.Brand>
           
           <Navbar.Toggle aria-controls="main-navbar" />
@@ -64,15 +47,13 @@ useEffect(() => {
                 Accueil
               </Nav.Link>
               
-              <Nav.Link as={Link} to="/doctors" className={styles.navLink + " mx-2"}>
+              <Nav.Link as={Link} to="/doctors?specialite=Cardiologie&ville=" className={styles.navLink + " mx-2"}>
                 Trouver des médecins
               </Nav.Link>
-              
               
               <Nav.Link as={Link} to="/faq" className={styles.navLink + " mx-2"}>
                 Support
               </Nav.Link>
-               
             </Nav>
             
             <div className="d-flex align-items-center">
@@ -85,35 +66,70 @@ useEffect(() => {
                 <NavDropdown.Item href="#">English</NavDropdown.Item>
                 <NavDropdown.Item href="#">العربية</NavDropdown.Item>
               </NavDropdown>
-             <Nav.Link as={Link} to="/LoginMedecin" className={styles.navLink + " mx-2"}>
-                <Button className={styles.loginButton}>
-                 vous etes un  médecine ? 
-              </Button>
-              </Nav.Link>
 
-              <Nav.Link as={Link} to="/LoginPatient" className={styles.navLink + " mx-2"}>
-                <Button className={styles.loginButton}>
-                  Login/Signup
-                </Button>
-              </Nav.Link>
-              
+              {!Data && (
+                <>
+                  <Nav.Link as={Link} to="/LoginMedecin" className={styles.navLink + " mx-2"}>
+                    <Button className={styles.loginButton}>
+                      Vous êtes médecin ?
+                    </Button>
+                  </Nav.Link>
 
-             {Data && 
-              <Nav.Link 
-                as={Link} 
-                to="/Profile" 
-                className={`mx-2 ${styles.navLink}`}
-                aria-label="Accéder au profil"
-              >
-                <div className={styles.profileLinkContent}>
-                  <FiUser className={styles.profileIcon} />
-                  <span className={styles.profileText}>Profile</span>
+                  <Nav.Link as={Link} to="/LoginPatient" className={styles.navLink + " mx-2"}>
+                    <Button className={styles.loginButton}>
+                      Login/Signup
+                    </Button>
+                  </Nav.Link>
+                </>
+              )}
+
+              {Data && (
+                <div 
+                  className={styles.profileDropdownContainer}
+                  onMouseEnter={() => setShowProfileDropdown(true)}
+                  onMouseLeave={() => setShowProfileDropdown(false)}
+                >
+                  <div className={`mx-2 ${styles.profileTrigger}`}>
+                    <div className={styles.profileLinkContent}>
+                      <FiUser className={styles.profileIcon} />
+                      <span className={styles.profileText}>
+                        {Data.nom || Data.name || 'Profile'}
+                      </span>
+                      <i className={`fas fa-chevron-down ${styles.chevronIcon}`}></i>
+                    </div>
+                  </div>
+
+                  {showProfileDropdown && (
+                    <div className={styles.profileDropdown}>
+                      <Link 
+                        to="/Profile" 
+                        className={styles.dropdownItem}
+                        onClick={() => setShowProfileDropdown(false)}
+                      >
+                        <FiUser className={styles.dropdownIcon} />
+                        <span>Mon Profil</span>
+                      </Link>
+                      
+                      <Link 
+                        to="/mes-rendez-vous" 
+                        className={styles.dropdownItem}
+                        onClick={() => setShowProfileDropdown(false)}
+                      >
+                        <FiCalendar className={styles.dropdownIcon} />
+                        <span>Mes Rendez-vous</span>
+                      </Link>
+                      
+                      <button 
+                        onClick={handleLogout}
+                        className={`${styles.dropdownItem} ${styles.logoutItem}`}
+                      >
+                        <FiLogOut className={styles.dropdownIcon} />
+                        <span>Déconnexion</span>
+                      </button>
+                    </div>
+                  )}
                 </div>
-              </Nav.Link>
-            }
-
-              
-
+              )}
             </div>
           </Navbar.Collapse>
         </Container>

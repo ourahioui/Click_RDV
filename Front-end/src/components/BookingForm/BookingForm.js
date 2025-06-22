@@ -20,9 +20,8 @@ export default function BookingForm({ date, heureDebut, medecinId, user, onCance
       try {
         const medecinRes = await axios.get(`http://localhost:5000/api/medecins/${medecinId}`);
         setMedecinNom(`Dr. ${medecinRes.data.nom} ${medecinRes.data.prenom}`);
-
         if (user?.id) {
-          const userRes = await axios.get(`http://localhost:5000/api/users/${user.id}`);
+          const userRes = await axios.get(`http://localhost:5000/patient/${user.id}`);
           setFormData({
             nom: userRes.data.nom || '',
             prenom: userRes.data.prenom || '',
@@ -70,7 +69,7 @@ export default function BookingForm({ date, heureDebut, medecinId, user, onCance
     }
 
     try {
-      await axios.post('http://localhost:5000/api/rendez-vous', {
+      await axios.post('http://localhost:5000/RendezVous', {
         medecinId,
         patientId: user.id,
         date,

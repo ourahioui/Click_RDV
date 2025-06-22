@@ -52,7 +52,6 @@ function DoctorPage() {
   const indexOfLastDoctor = currentPage * doctorsPerPage;
   const indexOfFirstDoctor = indexOfLastDoctor - doctorsPerPage;
   const currentDoctors = doctors.slice(indexOfFirstDoctor, indexOfLastDoctor);
-  const searchData = useSelector((state) => state.search);
          
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -84,10 +83,7 @@ function DoctorPage() {
     setCurrentPage(pageNumber);
   };
 
-  const handleSearch = (resultats) => {
-    setDoctors(resultats);
-    setCurrentPage(1);
-  };
+
  
  
 
@@ -108,13 +104,8 @@ function DoctorPage() {
           <p>Aucun médecin trouvé.</p>
         ) : (
           currentDoctors.map((doctor, index) => (
-           
-            <React.Fragment key={index} >
-              <DoctorCard doctor={doctor}   />
-              {index === 0 && <TimeSlots availableDays={availableDaysData} />}
             <React.Fragment key={index}>
               <DoctorCard doctor={doctor} />
-              
             </React.Fragment>
           ))
         )}

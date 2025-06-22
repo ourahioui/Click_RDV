@@ -6,6 +6,8 @@ import axios from "axios";
 
 const Hero = ({ onSearch }) => {
   const [form, setForm] = useState({ ville: "", specialite: "" });
+  const [villes, setVilles] = useState([]);
+  const [specialites, setSpecialites] = useState([]);
   const navigate = useNavigate();
   
   const handleChange = (e) => {
@@ -15,26 +17,19 @@ const Hero = ({ onSearch }) => {
   const handleSearchClick = async (e) => {
     e.preventDefault();
     try {
-      if(form.ville!=="" || form.specialite!=="") {
-    
-      dispatch(setSearchData(form)); // enregistre dans Redux
-      
-      navigate('/doctors');
-    }
-
+      if (form.ville !== "" || form.specialite !== "") {
+        // dispatch(setSearchData(form)); // enregistre dans Redux (décommentez si Redux est utilisé)
         navigate('/doctors?specialite=' + form.specialite + '&ville=' + form.ville);
-      }
-      else {
+      } else {
         alert("Veuillez remplir au moins un champ de recherche.");
       }
-
     } catch (err) {
       console.error("Erreur :", err);
     }
   };
+  
 
-  const [villes, setVilles] = useState([]);
-  const [specialites, setSpecialites] = useState([]);
+  
 
   useEffect(() => {
     // Remplacez les URLs par vos vraies API
@@ -65,23 +60,18 @@ const Hero = ({ onSearch }) => {
   return (
     <section className={styles.hero}>
       <Container>
-        <Row className="align-items-center">
+        <Row >
           <Col lg={6} className={styles.heroContent}>
             <h2 className={styles.heroTitle}>Évitez les déplacements ! Prenez rendez-vous en ligne</h2>
             <h1 className={styles.mainTitle}>
               Consultation <span>médicale</span>
             </h1>
 
-            <div className={styles.carouselIndicators}>
-              <div className={styles.indicator}></div>
-              <div className={`${styles.indicator} ${styles.active}`}></div>
-              <div className={styles.indicator}></div>
-            </div>
           </Col>
 
           <Col lg={6} className="text-center">
             <img 
-              src="https://img.freepik.com/free-photo/doctor-with-stethoscope-hands-hospital-background_1423-1.jpg" 
+              src="/Images/Hero_doctor.png" 
               alt="Médecin professionnel" 
               className={styles.doctorImage}
             />
@@ -140,5 +130,6 @@ const Hero = ({ onSearch }) => {
     </section>
   );
 };
+
 
 export default Hero;
