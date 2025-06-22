@@ -16,10 +16,12 @@ const PatientModel = {
   delete(id) {
     return db('patient').where({ id }).del();
   },
-  getById(id) {
+
+  getPatient(id) {
     return db('patient').where({ id }).first();
   }
   
 };
 
 export default PatientModel;
+

@@ -13,6 +13,7 @@ const connection = mysql.createConnection({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME
+
 });
 // Stocker les codes en base de données
 const storeCode = (email, code) => {
@@ -195,7 +196,7 @@ export async function LoginPatient(req, res) {
     const token = jwt.sign(
       { email: data.email, id: data.id ,role:SearchTable},process.env.JWT_SECRET,{ expiresIn: "1h" }
     );
-    
-    return res.status(200).json({ token });
+    // const token = jwt.sign({ email, id: results.insertId ,role:'medecins'}, process.env.JWT_SECRET, { expiresIn: "1h" });
+    return res.status(200).json({ email,token });
   });
 }

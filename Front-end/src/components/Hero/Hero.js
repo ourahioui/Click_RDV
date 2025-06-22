@@ -1,7 +1,7 @@
 import React, { useState , useEffect} from 'react';
 import styles from './Hero.module.css';
 import { Container, Row, Form, Col, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import axios from "axios";
 
 const Hero = ({ onSearch }) => {
@@ -9,6 +9,7 @@ const Hero = ({ onSearch }) => {
   const [villes, setVilles] = useState([]);
   const [specialites, setSpecialites] = useState([]);
   const navigate = useNavigate();
+  // const dispatch = useDispatch() ; 
   
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -23,6 +24,20 @@ const Hero = ({ onSearch }) => {
       } else {
         alert("Veuillez remplir au moins un champ de recherche.");
       }
+      if(form.ville!=="" || form.specialite!=="") {
+    
+      // dispatch(setSearchData(form)); // enregistre dans Redux
+      //  navigate('/doctors?specialite=' + form.specialite + '&ville=' + form.ville);
+       navigate('/doctors?specialite=' + form.specialite + '&ville=' + form.ville);
+      }
+
+       
+    
+      else {
+        
+        alert("Veuillez remplir au moins un champ de recherche.");
+      }
+    
     } catch (err) {
       console.error("Erreur :", err);
     }

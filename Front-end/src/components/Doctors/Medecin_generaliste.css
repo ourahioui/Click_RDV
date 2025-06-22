@@ -38,8 +38,8 @@
   backdrop-filter: blur(20px);
   border-radius: var(--border-radius-xl);
   box-shadow: var(--shadow-heavy);
-  max-width: 28rem;
-  width: 100%;
+  max-width: 88rem;
+  width: 500vh;
   overflow: hidden;
   transition: var(--transition-medium);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -236,12 +236,12 @@
   margin-right: 0.5rem;
 }
 
-.section-dot {
-  width: 1rem;
-  height: 1rem;
-  border-radius: 50%;
-  margin-right: 0.5rem;
-}
+  /* .section-dot {
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+  } */
 
 .green-dot { background-color: var(--primary-green); }
 .purple-dot { background-color: var(--primary-purple); }

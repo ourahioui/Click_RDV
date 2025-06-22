@@ -142,7 +142,6 @@ const handleLanguesChange = (e) => {
   console.log(formData) ;
 };
 
-
 // -----------------------------------------
     function validateForm()
     {
@@ -166,12 +165,7 @@ const handleLanguesChange = (e) => {
             return false ; 
             }
              
-            // if((formData.password.length<8 && formData.password.length>=1 ) || !(isEdit && formData.password.length>20))
-            // {
-            //     alert("le password doit doit etre entre 8 et  20 character") ; 
-            //     return false ; 
-            
-            // }
+             
             if(!formData.password.startsWith('$2b$') && (formData.password.length<8 || formData.password.length>20))
             {
                 alert("Le mot de passe doit contenir entre 8 et 20 caractères.");
@@ -250,7 +244,7 @@ const handleMettreAjour = async (e)=>{
               const data = await res.json();
                 alert("mettre a jour avec success") ; 
                 window.location.reload();
-              
+                
             }
         
      }
@@ -273,8 +267,8 @@ const handleMettreAjour = async (e)=>{
       alt="Image importée avec succès"
       onClick={handleImageClick}
       style={{
-        width: '300px',
-        height: 'auto',
+        width: '200px',
+        height: '200px',
         borderRadius: '15px',
         boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
         margin: '20px',
@@ -298,7 +292,6 @@ const handleMettreAjour = async (e)=>{
 )}
 
           
-
 
           <form className={styles.form}>
             
@@ -451,7 +444,7 @@ const handleMettreAjour = async (e)=>{
                           
                         </label>
                       </div>
-                       <p>dh</p>
+                       <p>Tarif en dh</p>
             </div>
          
             </>
@@ -520,6 +513,26 @@ const handleMettreAjour = async (e)=>{
       required 
       value={formData.villeId}
     >
+      className={styles.inputField}
+      onChange={handleChange}
+      required 
+      value={formData.specialiteId}
+    >
+       <option value=""> Sélectionnez une spécialité</option>
+      {
+        Specialites.map((e)=>(
+             <option value={e.id}>{e.specialite}</option>
+        ))
+      }
+     
+    </select>
+     <select
+      name="villeId"
+      className={styles.inputField}
+      onChange={handleChange}
+      required 
+      value={formData.villeId}
+    >
        <option value=""> Sélectionnez une ville</option>
       {
         Villes.map((e)=>(
@@ -544,7 +557,6 @@ const handleMettreAjour = async (e)=>{
         />
       </div>):<div></div>}
       
-
 
            
     
@@ -579,3 +591,4 @@ const handleMettreAjour = async (e)=>{
         </div>
       );
 }
+

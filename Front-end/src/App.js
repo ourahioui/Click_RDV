@@ -17,7 +17,7 @@ import LoginPatient from './components/loginPatient';
 import ProfilePatient from './components/ProfilePatient' ;
 import ProfileMedecin from './components/ProfileMedecin'  ;
 import Medecin_generaliste from './components/Doctors/Medecin_generaliste' ;
-import MedicalProfileTabs from './components/MedicalProfileTabs.jsx' ; 
+import ProfilMedicalTabs from './components/MedicalProfileTabs.jsx' ; 
 import { jwtDecode } from 'jwt-decode';
 import { ToastContainer } from 'react-toastify';
 import Mes_rendez_vous from './components/mes_rendez_vous/mes_rendez_vous.js';
@@ -45,7 +45,7 @@ function App() {
             <Route path="/SendVerificationCode" element={<SendVerificationCode />} />
             <Route path="/Profile" element={
               // decoded?.role==="medecins"?<ProfileMedecin id={decoded.id}/>:
-              decoded?.role==="medecins"?<MedicalProfileTabs id={decoded.id}/>:
+              decoded?.role==="medecins"?<ProfilMedicalTabs id={decoded.id}/>:
               decoded?.role==="patient"?<ProfilePatient id={decoded.id}/>:
               <LoginPatient/>
               }/> 

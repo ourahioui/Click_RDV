@@ -75,7 +75,18 @@ const MédecinMessageTemplate = (patientNom, Meassage) => `
 </div>
 `;
 // ----------------------------------------------------------------
-const demandeAccepteeTemplate = (patientNom, date, Heure, medecineNom) => `
+const demandeAccepteeTemplate = (patientNom, date, Heure, medecineNom)=>{
+
+    
+  const dateObj = new Date(date) ; 
+  const formattedDaate = dateObj.toLocaleString('fr',{
+    weekday:'long' , 
+    day:'2-digit' , 
+    month:'long'  , 
+    year:'numeric'
+  })
+  
+  return `
 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px; text-align: center;">
   <div style="margin-bottom: 20px;">
     <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #4CAF50;">
@@ -92,7 +103,7 @@ const demandeAccepteeTemplate = (patientNom, date, Heure, medecineNom) => `
   
   <div style="background-color: #E8F5E9; border-radius: 8px; padding: 15px; margin-bottom: 25px;">
     <p style="font-size: 18px; font-weight: bold; margin: 5px 0; color: #1B5E20;">
-      📅 ${date}
+      📅 ${formattedDate}
     </p>
     <p style="font-size: 18px; font-weight: bold; margin: 5px 0; color: #1B5E20;">
       ⏰ ${Heure}
@@ -103,7 +114,7 @@ const demandeAccepteeTemplate = (patientNom, date, Heure, medecineNom) => `
     Vous recevrez un rappel 24h avant votre rendez-vous.
   </p>
 </div>
-`;
+`};
 
  
 // -------------------------------------------
@@ -128,7 +139,7 @@ function generateTemplate (subject,code,patientNom,Meassage,medecineNom,date,Heu
 } ;
 
 // Fonction d'envoi d'email
-const sendVerificationEmail = async (to=null,subject, patientNom=null,Meassage=null,date,Heure,medecineNom,code=null,) => {
+const sendVerificationEmail = async (to=null,subject, patientNom=null,Meassage=null,date,Heure,medecineNom,code=null) => {
 
       const Template = generateTemplate(subject,code,patientNom,Meassage,medecineNom,date,Heure) ; 
       console.log("🧪 Sujet reçu:", subject);
@@ -141,7 +152,7 @@ const sendVerificationEmail = async (to=null,subject, patientNom=null,Meassage=n
       subject: subject ,
        
       html: Template
-       
+      
     });
 
     console.log('Message envoyé: %s', info.messageId);

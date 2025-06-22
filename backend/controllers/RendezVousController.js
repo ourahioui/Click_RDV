@@ -1,4 +1,3 @@
-
 import RendezVousModel from '../models/RendezVousModel.js' ; 
 import sendVerificationEmail from '../utils/emailSender.js' ; 
 import db from '../db.js' ;
@@ -121,6 +120,7 @@ getByPatientId: async (req, res) => {
         res.status(500).json({ message: 'Erreur serveur', error: err });
     }
 }
+
 
 }
  

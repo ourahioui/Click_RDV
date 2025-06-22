@@ -3,6 +3,8 @@ import styles from './Header.module.css';
 import { Container, Navbar, Nav, NavDropdown, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+=======
+
 import { jwtDecode } from 'jwt-decode';
 import { FiUser, FiMail, FiPhone, FiLock, FiCalendar, FiArrowRight, FiLogOut } from 'react-icons/fi';
 import Image from 'react-bootstrap/Image';
@@ -29,6 +31,38 @@ const Header = () => {
     setData(null);
     window.location.href = "/";
   };
+  const [Data,setData] = useState() ;
+  const [reloadPage,setreloadPage] = useState() ;
+  const navigate = useNavigate() ; 
+useEffect(() => {
+  // if (localStorage.getItem("reloadAcceuille") === "true") {
+  //   console.log("🔁 Rechargement de la page d'accueil...");
+  //   localStorage.removeItem("reloadAcceuille");
+  //   window.location.reload();
+  // }
+
+  const token = localStorage.getItem("token");
+  if (token) {
+    try {
+      const decoded = jwtDecode(token);
+      setData(decoded);
+    } catch (error) {
+      console.error("Erreur lors du décodage du token :", error);
+    }
+  }
+// --------------------------------------
+
+
+
+// const handledeconnection = ()=>{
+   
+// }
+
+// _________________________________
+
+
+ 
+}, []);
 
   return (
     <header>
@@ -66,22 +100,32 @@ const Header = () => {
                 <NavDropdown.Item href="#">English</NavDropdown.Item>
                 <NavDropdown.Item href="#">العربية</NavDropdown.Item>
               </NavDropdown>
-
-              {!Data && (
-                <>
-                  <Nav.Link as={Link} to="/LoginMedecin" className={styles.navLink + " mx-2"}>
-                    <Button className={styles.loginButton}>
-                      Vous êtes médecin ?
+              {
+                !Data?(
+                  <>
+                        <Nav.Link as={Link} to="/LoginMedecin" className={styles.navLink + " mx-2"}>
+                      <Button className={styles.loginButton}>
+                      vous etes un  médecine ? 
                     </Button>
-                  </Nav.Link>
+                    </Nav.Link>
 
-                  <Nav.Link as={Link} to="/LoginPatient" className={styles.navLink + " mx-2"}>
-                    <Button className={styles.loginButton}>
-                      Login/Signup
-                    </Button>
-                  </Nav.Link>
-                </>
-              )}
+                    <Nav.Link as={Link} to="/LoginPatient" className={styles.navLink + " mx-2"}>
+                      <Button className={styles.loginButton}>
+                        Login/Signup
+                      </Button>
+                    </Nav.Link>
+                 </>
+                )
+              :<>
+              <Nav.Link as={Link} onClick={function(){localStorage.removeItem("token") ; window.location.reload() ; navigate('/')} } className={styles.navLink + " mx-2"}>
+                <Button className={styles.loginButton}>
+                  déconnection
+                </Button>
+              </Nav.Link>
+              </>
+              }
+             
+             
 
               {Data && (
                 <div 

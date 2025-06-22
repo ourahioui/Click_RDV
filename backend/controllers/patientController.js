@@ -2,11 +2,13 @@
 import PatientModel from '../models/PatientModel.js';
 import bcrypt from 'bcrypt' ; 
 
+
 export   async function getById(req,res)
 {
   const {id} = req.body 
 try {
        const patient  = await PatientModel.findById(id) ; 
+
        if(!patient)  return res.status(404).json({error: 'patient non trouvé'} ) ;
        res.json(patient)  ; 
     } catch (err) {
