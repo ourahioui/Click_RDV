@@ -7,6 +7,8 @@ import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import styles from './DoctorPage.module.css';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import {useSelector} from 'react-redux' ; 
+import TimeSlots from './TImeSlots/TimeSlots' ;
 import axios from 'axios';
 
 function DoctorPage() {
@@ -105,19 +107,16 @@ function DoctorPage() {
         </div>
      
         {doctors.length === 0 ? (
-          <p>Aucun médecin trouvé.</p>
-        ) : (
-          currentDoctors.map((doctor, index) => (
-           
-            <React.Fragment key={index} >
-              <DoctorCard doctor={doctor}   />
-              {index === 0 && <TimeSlots availableDays={availableDaysData} />}
-            <React.Fragment key={index}>
-              <DoctorCard doctor={doctor} />
-              
-            </React.Fragment>
-          ))
-        )}
+  <p>Aucun médecin trouvé.</p>
+) : (
+  currentDoctors.map((doctor, index) => (
+    <React.Fragment key={index}>
+      <DoctorCard doctor={doctor} />
+       
+    </React.Fragment>
+  ))
+)}
+
 
         {doctors.length > doctorsPerPage && (
           <Pagination

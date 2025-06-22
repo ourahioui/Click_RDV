@@ -1,4 +1,3 @@
-
 import RendezVousModel from '../models/RendezVousModel.js' ; 
 import sendVerificationEmail from '../utils/emailSender.js' ; 
 const RendezVousController = {
@@ -18,12 +17,6 @@ const RendezVousController = {
             }
            
     } , 
-    // async DemandesAccepter(req,res)
-    // {
-    //     const id = req.params.id ; 
-    //     const appointments = await RendezVousModel.DemandesAccepter(id) ; 
-    //     return res.json(appointments)
-    // } ,
     async AccepterDemande(req,res)
     {
         const id = req.params.id  ;
@@ -48,7 +41,75 @@ const RendezVousController = {
        const subject = 'Message important du médecin'  ; 
        const result = await sendVerificationEmail(patientEmail,subject,patientNom,Message) ; 
        return res.json(result) ; 
-    }   
+    }   ,
+getAll: async (req, res) => {
+    try {
+        const data = await RendezVousModel.getAll();
+        res.json(data);
+    } catch (err) {
+        res.status(500).json({ message: 'Erreur serveur', error: err });
+    }
+},
+
+getById: async (req, res) => {
+    try {
+        const rendezVous = await RendezVousModel.getById(req.params.id);
+        if (!rendezVous) return res.status(404).json({ message: 'Non trouvé' });
+        res.json(rendezVous);
+    } catch (err) {
+        res.status(500).json({ message: 'Erreur serveur', error: err });
+    }
+},
+
+create: async (req, res) => {
+    // Assurez-vous que 'db' est importé si utilisé ici
+    const trx = await db.transaction();
+
+    try {
+        const { patientId, medecinId, date, heure } = req.body;
+
+        // Créer le rendez-vous
+        const [id] = await RendezVousModel.create({ patientId, medecinId, date, heure }, trx);
+
+        // Supprimer la disponibilité
+        await trx('disponibilites')
+            .where({ medecinId, date, heureDebut: heure })
+            .del();
+
+        // Confirmer les opérations
+        await trx.commit();
+
+        const newRdv = await RendezVousModel.getById(id);
+        res.status(201).json(newRdv);
+
+    } catch (err) {
+        await trx.rollback();
+        console.error('Erreur transactionnelle :', err);
+        res.status(500).json({ message: 'Erreur lors de la création du rendez-vous', error: err.message });
+    }
+},
+
+update: async (req, res) => {
+    try {
+        const count = await RendezVousModel.update(req.params.id, req.body);
+        if (!count) return res.status(404).json({ message: 'Non trouvé' });
+        const updated = await RendezVousModel.getById(req.params.id);
+        res.json(updated);
+    } catch (err) {
+        res.status(400).json({ message: 'Erreur de mise à jour', error: err });
+    }
+},
+
+remove: async (req, res) => {
+    try {
+        const count = await RendezVousModel.delete(req.params.id);
+        if (!count) return res.status(404).json({ message: 'Non trouvé' });
+        res.json({ message: 'Supprimé avec succès' });
+    } catch (err) {
+        res.status(500).json({ message: 'Erreur serveur', error: err });
+    }
+},
+
 }
  
 export default RendezVousController ;

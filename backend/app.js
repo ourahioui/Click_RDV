@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 import authRoutes from './routes/authRoutes.js';
 import medecinRoutes from './routes/medecineRoutes.js';
-import patientRoutes from './routes/patientRoutes.js'  ;
 import rendezvousRoutes from './routes/rendezvousRoutes.js' ; 
 import path from 'path' ;
 import {dirname} from 'path' ;
@@ -26,12 +25,9 @@ app.use('/auth', authRoutes);
 app.use("/api/medecins",medecinRoutes);
 app.use("/patient",patientRoutes) ; 
 app.use("/RendezVous",rendezvousRoutes) ; 
-=======
 app.use("/api/villes",villesRoutes);
 app.use("/api/specialites",specialitesRoutes);
 app.use('/api/disponibilites', disponibiltesRoutes);
-app.use('/api/users', patientRoutes);
-app.use('/api/rendez-vous', rendezVousRoutes);
 
 
 

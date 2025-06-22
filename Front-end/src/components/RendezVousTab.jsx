@@ -114,6 +114,7 @@ const handleSubmitMessage = async(appointmentId,patientEmail,patientNom)=>{
       },
        body: JSON.stringify({ 
         Message: messageInput[appointmentId].content , 
+
         patientNom:patientNom,
         patientEmail:patientEmail 
       })

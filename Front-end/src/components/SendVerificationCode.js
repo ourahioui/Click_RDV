@@ -41,7 +41,8 @@ const handleSubmit = async (e) => {
   formDataToSend.append('password', formData.password);
   formDataToSend.append('tel', formData.tel);
   formDataToSend.append('experience', formData.experience);
-  formDataToSend.append('specialite', formData.specialite);
+  formDataToSend.append('specialiteId', formData.specialiteId);
+  formDataToSend.append('villeId', formData.villeId);
   formDataToSend.append('photo', formData.photo);  
   
   

@@ -30,10 +30,5 @@ const generateTemporalCode = () => {
   return generateNumericCode(4) + timestamp;
 };
 
-// module.exports = {
-//   generateSecureCode,    // Code alphanumérique sécurisé
-//   generateNumericCode,   // Code numérique simple
-//   generateMixedCode,     // Code mixte sans caractères ambigus
-//   generateTemporalCode   // Code avec timestamp intégré
-// };
+ 
 export default generateNumericCode ; 

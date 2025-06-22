@@ -12,7 +12,7 @@ import multer from 'multer';
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'ibrahimKHANTACH2004',
+  password: '',
   database: 'rdv'
 });
 // Stocker les codes en base de données
@@ -41,18 +41,18 @@ const storeCode = (email, code) => {
        connection.query("delete from codes where email=?",[email]) ;
 }
 
-export   async function sendVerificationCode  (req, res){
+// export   async function sendVerificationCode  (req, res){
  
-    const { email } = req.body;
+//     const { email } = req.body;
    
-    const codegenerated = generateNumericCode(); // Génère un code à 6 chiffres
-    deleteCodeFromDb(email)
-    await storeCode( email , codegenerated)
-    const subject='Code de vérification' ; 
-    await sendVerificationEmail(email,codegenerated,subject);
-  return res.status(201).json(codegenerated) ; 
+//     const codegenerated = generateNumericCode(); // Génère un code à 6 chiffres
+//     deleteCodeFromDb(email)
+//     await storeCode( email , codegenerated)
+//     const subject='Code de vérification' ; 
+//     await sendVerificationEmail(email,codegenerated,subject);
+//   return res.status(201).json(codegenerated) ; 
    
-};
+// };
 export async function sendVerificationCode(req, res) {
   try {
     const { email } = req.body;
@@ -66,10 +66,16 @@ export async function sendVerificationCode(req, res) {
     const codegenerated = generateNumericCode();
     await deleteCodeFromDb(email);
     await storeCode(email, codegenerated);
-
+    
+    const subject = 'Code de vérification' ;
+    const patientNom = null ; 
+    const Message = null ; 
+    const date = null ; 
+    const Heure = null ; 
+    const medecineNom = null ; 
     // Envoyer l'email
-    await sendVerificationEmail(email, codegenerated);
-
+     
+    await sendVerificationEmail(email,subject,patientNom,Message,date,Heure,medecineNom,codegenerated) ; 
     // Réponse OK
     return res.status(201).json({ message: "Code envoyé avec succès !" });
   } catch (error) {
@@ -130,7 +136,7 @@ export function verifyCode(req, res) {
 export async  function registerMedecin(req, res) {
  
 
-    const { nom, prenom, email, password, tel, experience, specialite , } = req.body;
+    const { nom, prenom, email, password, tel, experience, specialiteId , villeId} = req.body;
     const photo = req.file ? req.file.filename : null ;
     
     if (!password) {
@@ -139,11 +145,11 @@ export async  function registerMedecin(req, res) {
 
     const hashedPassword = await hashPassword(password);
 
-    const sql = `INSERT INTO medecins(nom, prenom, email, tel, password, specialite, ville, experience, photo)
+    const sql = `INSERT INTO medecins(nom, prenom, email, tel, password,experience, photo, specialiteId, villeId )
                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
     connection.query(sql, [
-      nom, prenom, email, tel, hashedPassword, specialite, 'Casablanca', experience, photo
+      nom, prenom, email, tel, hashedPassword,experience, photo, specialiteId, villeId
     ], (err, results) => {
       if (err) {
         deleteCodeFromDb(email);
@@ -190,7 +196,7 @@ export async function LoginPatient(req, res) {
     const token = jwt.sign(
       { email: data.email, id: data.id ,role:SearchTable},process.env.JWT_SECRET,{ expiresIn: "1h" }
     );
-    
-    return res.status(200).json({ token });
+    // const token = jwt.sign({ email, id: results.insertId ,role:'medecins'}, process.env.JWT_SECRET, { expiresIn: "1h" });
+    return res.status(200).json({ email,token });
   });
 }

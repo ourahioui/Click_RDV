@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Header.module.css';
 import { Container, Navbar, Nav, NavDropdown, Button  } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link ,useNavigate} from 'react-router-dom';
 import {useState,useEffect} from 'react'  ;
 import { jwtDecode } from 'jwt-decode';
 
@@ -11,7 +11,7 @@ import { FiUser, FiMail, FiPhone, FiLock, FiCalendar, FiArrowRight } from 'react
 const Header = () => {
   const [Data,setData] = useState() ;
   const [reloadPage,setreloadPage] = useState() ;
-  
+  const navigate = useNavigate() ; 
 useEffect(() => {
   // if (localStorage.getItem("reloadAcceuille") === "true") {
   //   console.log("🔁 Rechargement de la page d'accueil...");
@@ -28,20 +28,18 @@ useEffect(() => {
       console.error("Erreur lors du décodage du token :", error);
     }
   }
+// --------------------------------------
 
 
 
-
-
-
-
-
-  //  const handleAuthChange = () => {
-  //   window.location.reload();
-  // };
+// const handledeconnection = ()=>{
    
-  //  window.addEventListener('authChange', handleAuthChange);
-  //   return () => window.removeEventListener('authChange', handleAuthChange);
+// }
+
+// _________________________________
+
+
+ 
 }, []);
 
   return (
@@ -85,17 +83,31 @@ useEffect(() => {
                 <NavDropdown.Item href="#">English</NavDropdown.Item>
                 <NavDropdown.Item href="#">العربية</NavDropdown.Item>
               </NavDropdown>
-             <Nav.Link as={Link} to="/LoginMedecin" className={styles.navLink + " mx-2"}>
-                <Button className={styles.loginButton}>
-                 vous etes un  médecine ? 
-              </Button>
-              </Nav.Link>
+              {
+                !Data?(
+                  <>
+                        <Nav.Link as={Link} to="/LoginMedecin" className={styles.navLink + " mx-2"}>
+                      <Button className={styles.loginButton}>
+                      vous etes un  médecine ? 
+                    </Button>
+                    </Nav.Link>
 
-              <Nav.Link as={Link} to="/LoginPatient" className={styles.navLink + " mx-2"}>
+                    <Nav.Link as={Link} to="/LoginPatient" className={styles.navLink + " mx-2"}>
+                      <Button className={styles.loginButton}>
+                        Login/Signup
+                      </Button>
+                    </Nav.Link>
+                 </>
+                )
+              :<>
+              <Nav.Link as={Link} onClick={function(){localStorage.removeItem("token") ; window.location.reload() ; navigate('/')} } className={styles.navLink + " mx-2"}>
                 <Button className={styles.loginButton}>
-                  Login/Signup
+                  déconnection
                 </Button>
               </Nav.Link>
+              </>
+              }
+             
               
 
              {Data && 
