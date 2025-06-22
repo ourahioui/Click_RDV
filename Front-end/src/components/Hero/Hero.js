@@ -1,12 +1,13 @@
 import React, { useState , useEffect} from 'react';
 import styles from './Hero.module.css';
 import { Container, Row, Form, Col, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import axios from "axios";
 
 const Hero = ({ onSearch }) => {
   const [form, setForm] = useState({ ville: "", specialite: "" });
   const navigate = useNavigate();
+  // const dispatch = useDispatch() ; 
   
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -17,17 +18,18 @@ const Hero = ({ onSearch }) => {
     try {
       if(form.ville!=="" || form.specialite!=="") {
     
-      dispatch(setSearchData(form)); // enregistre dans Redux
-      
-      navigate('/doctors');
-    }
-
-        navigate('/doctors?specialite=' + form.specialite + '&ville=' + form.ville);
+      // dispatch(setSearchData(form)); // enregistre dans Redux
+      //  navigate('/doctors?specialite=' + form.specialite + '&ville=' + form.ville);
+       navigate('/doctors?specialite=' + form.specialite + '&ville=' + form.ville);
       }
+
+       
+    
       else {
+        
         alert("Veuillez remplir au moins un champ de recherche.");
       }
-
+    
     } catch (err) {
       console.error("Erreur :", err);
     }

@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Link ,useNavigate} from "react-router-dom";
 import styles from "../components/LoginForm.module.css";
+import { jwtDecode } from 'jwt-decode';
 
 export default function Login({RegisterPath,LoginPath,SearchTable}) {
   const [email, setEmail] = useState("");
@@ -23,8 +24,22 @@ export default function Login({RegisterPath,LoginPath,SearchTable}) {
     {
       alert("connecter avec success") ;
       const data = await response.json();
-      localStorage.setItem("token",data.token) ;  
-      navigate('/') ;
+      localStorage.setItem("email",data.email)  ;
+      localStorage.setItem("token",data.token) ; 
+       const token = localStorage.getItem("token");
+       const decoded = jwtDecode(token); 
+       console.log(decoded);
+       localStorage.setItem("reloadAcceuille","true") ;
+        console.log(localStorage.getItem("reloadAcceuille"))
+        navigate("/", { replace: true });
+        
+        window.location.reload();
+         
+            
+    }
+    else
+    {
+      alert("email ou mot de passe incorrect")
     }
 
 
