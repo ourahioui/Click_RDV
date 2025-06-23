@@ -48,6 +48,8 @@ const ProfilMedicalTabs = ({ id }) => {
     localStorage.removeItem('token');
     toast.success('Déconnexion réussie');
     navigate('/LoginMedecin');
+    window.location.reload();
+
   };
 
   const renderActiveTabContent = () => {

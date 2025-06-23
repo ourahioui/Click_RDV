@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {useNavigate,useLocation} from 'react-router-dom' ; 
 import { jwtDecode } from 'jwt-decode';
-
+import styles from './SendVerificationCode.module.css';
 
 export default function  SendVerificationCode  () {
     const [code, setCode] = useState('');
@@ -60,7 +60,7 @@ const handleSubmit = async (e) => {
       alert("Cet e-mail est déjà utilisé par un autre compte") ;
       // window.location.href = "/";
 
-      navigate("/") ; 
+      navigate("/profile") ; 
     } else {
       const data = await res.json();
       console.log("Succès :", data);
@@ -138,24 +138,29 @@ const handleSubmit = async (e) => {
   };
 
   return (
-    <div className="verification-container">
-      <form  onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-          placeholder="Entrez le code reçu"
-        />
-        <button type="submit">Vérifier</button>
-        <button 
-          type="button" 
-          onClick={handleResend}
-          disabled={countdown > 0}
-        >
-          {countdown > 0 ? `Renvoyer (${countdown}s)` : 'Renvoyer le code'}
+<div className={styles.container}>
+  <form onSubmit={handleSubmit} className={styles.form}>
+    <h2 className={styles.title}>Vérification</h2>
+    <input
+      type="text"
+      value={code}
+      onChange={(e) => setCode(e.target.value)}
+      placeholder="Entrez le code reçu"
+      className={styles.input}
+    />
+    <button type="submit" className={styles.buttonPrimary}>
+      Vérifier
+    </button>
+    <button 
+      type="button" 
+      onClick={handleResend}
+      disabled={countdown > 0}
+      className={styles.buttonSecondary}
+    >
+      {countdown > 0 ? `Renvoyer (${countdown}s)` : 'Renvoyer le code'}
+    </button>
+  </form>
+</div>
 
-        </button>
-      </form>
-    </div>
   );
 };
