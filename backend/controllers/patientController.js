@@ -1,4 +1,3 @@
-
 import PatientModel from '../models/PatientModel.js';
 import bcrypt from 'bcrypt' ; 
 
@@ -7,7 +6,7 @@ export   async function getById(req,res)
 {
   const {id} = req.body 
 try {
-       const patient  = await PatientModel.findById(id) ; 
+       const patient  = await PatientModel.getPatient(id) ; 
 
        if(!patient)  return res.status(404).json({error: 'patient non trouvé'} ) ;
        res.json(patient)  ; 
@@ -31,14 +30,14 @@ export async function UpdateProfile(req,res)
  async function hashPassword(password)
  {
     const salt = 10 ; 
-    const pass =  await bcrypt.hash(password,salt) ;  
+    const pass =  await bcrypt.hash(password,salt) ;
     return pass ; 
  }
 export async function getPatient(req,res)
 {
   const {id} = req.params ; 
   try {
-    const patient = await PatientModel.getById(id) ;
+    const patient = await PatientModel.getPatient(id) ;
     if (!patient) return res.status(404).json({ error: 'Patient non trouvé' });
     res.json(patient);
   } catch (err) {

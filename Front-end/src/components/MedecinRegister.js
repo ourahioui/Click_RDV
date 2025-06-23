@@ -513,11 +513,7 @@ const handleMettreAjour = async (e)=>{
       required 
       value={formData.villeId}
     >
-      className={styles.inputField}
-      onChange={handleChange}
-      required 
-      value={formData.specialiteId}
-    >
+ 
        <option value=""> Sélectionnez une spécialité</option>
       {
         Specialites.map((e)=>(

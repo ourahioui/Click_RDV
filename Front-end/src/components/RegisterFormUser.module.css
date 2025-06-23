@@ -2,10 +2,10 @@
 
 /* Variables CSS pour la cohérence des couleurs */
 :root {
-  --primary-color: #2563eb;
-  --primary-hover: #1d4ed8;
+  --primary-color: #2AA7FF;
+  --primary-hover: #1C8DDB; /* Une version plus foncée de #2AA7FF */
   --secondary-color: #10b981;
-  --background-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --background-gradient: linear-gradient(135deg, #2AA7FF 0%, #1C8DDB 100%);
   --card-background: #ffffff;
   --text-primary: #1f2937;
   --text-secondary: #6b7280;
@@ -14,6 +14,7 @@
   --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   --shadow-heavy: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
+
 
 /* Reset et base */
 * {

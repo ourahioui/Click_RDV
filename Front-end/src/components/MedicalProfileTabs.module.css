@@ -1,0 +1,160 @@
+.profilMedicalContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+}
+
+.sidebar {
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  overflow-x: auto;
+}
+
+.sidebarHeader {
+  padding: 0 15px 15px;
+  border-bottom: 1px solid #eaeaea;
+  margin-bottom: 15px;
+}
+
+.sidebarTitle {
+  color: #2AA7FF;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.tabsContainer {
+  display: flex;
+  gap: 5px;
+  padding: 0 10px;
+}
+
+.tabButton {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: #555;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  border-radius: 6px;
+}
+
+.tabButton:hover {
+  background-color: #f0f7ff;
+  color: #2AA7FF;
+}
+
+.tabButton.active {
+  background-color: #e6f3ff;
+  color: #2AA7FF;
+  font-weight: 500;
+}
+
+.tabIcon {
+  margin-right: 8px;
+  font-size: 1rem;
+}
+
+.contentArea {
+  flex: 1;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+  .tabsContainer {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 80px); /* Ajustez selon la hauteur de votre header */
+}
+.tabButton.logout {
+  margin-top: auto;
+  border-top: 1px solid #eaeaea;
+  color: #ff6b6b;
+}
+
+.tabButton.logout:hover {
+  background-color: #fff0f0;
+  color: #ff5252;
+}
+
+/* Version desktop */
+@media (min-width: 992px) {
+  .profilMedicalContainer {
+    flex-direction: row;
+  }
+
+  .sidebar {
+    width: 280px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+  }
+
+  .tabsContainer {
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+  }
+
+  .tabButton {
+    width: 100%;
+    border-radius: 0;
+    padding: 12px 20px;
+    justify-content: flex-start;
+  }
+
+  .tabButton.active {
+    border-left: 4px solid #2AA7FF;
+  }
+
+  .contentArea {
+    margin: 20px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+  }
+}
+
+/* Version tablette */
+@media (min-width: 768px) and (max-width: 991px) {
+  .sidebar {
+    padding: 15px 0;
+  }
+
+  .tabsContainer {
+    gap: 8px;
+  }
+
+  .tabButton {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+  }
+
+  .tabIcon {
+    margin-right: 6px;
+  }
+    .tabsContainer {
+    height: auto;
+  }
+  
+  .tabButton.logout {
+    margin-top: 10px;
+    border-top: none;
+  }
+
+}
+
+

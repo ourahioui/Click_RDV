@@ -1,124 +1,93 @@
-  import { useLocation } from 'react-router-dom';
-  import './Medecin_generaliste.css';
-  import React from 'react';
-  import { Phone, Mail, MapPin, Globe } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
+import React from 'react';
+import styles from './Medecin_generaliste.module.css';
+import { Phone, Mail, MapPin, Globe } from 'lucide-react';
+import Timestots from '../TImeSlots/TimeSlots';
 
-  export default function Medecin_generaliste()
-  {
-      const location = useLocation() ;
-      const doctor = location.state ; 
-      console.log(doctor) ;
+export default function Medecin_generaliste() {
+  const location = useLocation();
+  const doctor = location.state;
 
-      return (
-      <div className="doctor-container" >
-        <div className="doctor-card" >
-
-          
-          {/* En-tête avec photo, nom et spécialité */}
-          <div className="doctor-header" >
-            <div className="header-animation"></div>
+  return (
+    <div className={styles.doctorContainer}>
+      <div className={styles.doctorLayout}>
+        
+        {/* Colonne gauche : Informations du médecin */}
+        <section className={styles.leftColumn}>
+          <div className={styles.doctorCard}>
             
-            <div className="header-content">
-              <div className="doctor-photo">
-                <img 
-                  src={`http://localhost:5000/uploads/${doctor.photo}`} 
-                  alt={`Photo de ${doctor.nom}`}
-                  className="photo-img"
-                />
-              </div>
-              
-              <h2 className="doctor-name">
-                Dr {doctor.nom} {doctor.prenom}
-              </h2>
-              
-              <div className="doctor-specialty">
-                {doctor.specialite}
-              </div>
-            </div>
-          </div>
+            {/* En-tête du médecin */}
+            <header className={styles.doctorHeader}>
+              <img
+                src={`http://localhost:5000/uploads/${doctor.photo}`}
+                alt={`Dr ${doctor.nom} ${doctor.prenom}`}
+                className={styles.photoImg}
+              />
+              <h2 className={styles.doctorName}>Dr {doctor.nom} {doctor.prenom}</h2>
+              <p className={styles.doctorSpecialty}>{doctor.specialite}</p>
+              <p className={styles.doctorLocation}>{doctor.ville}</p>
+              <p className={styles.doctorAvailability}>Disponible aujourd'hui</p>
+            </header>
 
-          {/* Informations détaillées */}
-          <div className="doctor-info">
-            
-            {/* Langues Parlées */}
-            <div className="info-section languages-section">
-              <div className="section-header">
-                <Globe className="section-icon" />
-                <span className="section-title">
-                  Langues Parlées
-                </span>
-              </div>
-              <div className="languages-container">
-             {Array.isArray(doctor.languesParlees?.split(','))
-  ? doctor.languesParlees
-      .split(',')
-      .map((langue) => langue.trim())
-      .filter((langue) => langue !== null)
-      .map((langue, index) => (
-        <span key={index} className="language-tag">
-          {langue}
-        </span>
-      ))
-  : null}
-
-
-              </div>
-            </div>
-
-            {/* Tarif */}
-            <div className="info-section tarif-section">
-              <div className="section-header">
-                <div className="section-dot green-dot"></div>
-                <span className="section-title">
-                  Tarif
-                </span>
-              </div>
-              <div className="tarif-content">
-                <span className="tarif-amount">{doctor.tarif}</span>
-                {/* <span className="tarif-currency">{doctorData.devise} / Consultation</span> */}
-              </div>
-            </div>
-
-            {/* Contact */}
-            <div className="info-section contact-section">
-              <div className="section-header">
-                <div className="section-dot purple-dot"></div>
-                <span className="section-title">
-                  Contact
-                </span>
-              </div>
-              <div className="contact-content">
-                <div className="contact-item">
-                  <Phone className="contact-icon" />
-                  <span className="contact-text">{doctor.tel}</span>
+            {/* Informations supplémentaires */}
+            <div className={styles.doctorInfo}>
+              <div className={styles.infoSection}>
+                <div className={styles.sectionHeader}>
+                  <Globe className={styles.sectionIcon} />
+                  <span>Langues Parlées</span>
                 </div>
-                <div className="contact-item">
-                  <Mail className="contact-icon" />
-                  <span className="contact-text">{doctor.email}</span>
+                <div className={styles.languagesContainer}>
+                  {doctor.languesParlees?.split(',').map((langue, index) => (
+                    <span key={index} className={styles.languageTag}>
+                      {langue.trim()}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className={styles.infoSection}>
+                <div className={styles.sectionHeader}>
+                  <div className={styles.greenDot}></div>
+                  <span>Tarif</span>
+                </div>
+                <div className={styles.tarifContent}>
+                  <span>{doctor.tarif} MAD / consultation</span>
+                </div>
+              </div>
+
+              <div className={styles.infoSection}>
+                <div className={styles.sectionHeader}>
+                  <div className={styles.purpleDot}></div>
+                  <span>Contact</span>
+                </div>
+                <div className={styles.contactContent}>
+                  <div><Phone className={styles.icon} /> {doctor.tel}</div>
+                  <div><Mail className={styles.icon} /> {doctor.email}</div>
+                </div>
+              </div>
+
+              <div className={styles.infoSection}>
+                <div className={styles.sectionHeader}>
+                  <div className={styles.orangeDot}></div>
+                  <span>Adresse</span>
+                </div>
+                <div className={styles.accessContent}>
+                  <MapPin className={styles.icon} />
+                  <span>{doctor.adresse}, {doctor.ville}</span>
                 </div>
               </div>
             </div>
-
-            {/* Accès */}
-            <div className="info-section access-section">
-              <div className="section-header">
-                <div className="section-dot orange-dot"></div>
-                <span className="section-title">
-                  Accès
-                </span>
-              </div>
-              <div className="access-content">
-                <MapPin className="access-icon" />
-                <span className="access-text">
-                  {doctor.adresse} {doctor.ville}
-                </span>
-              </div>
-            </div>
-
           </div>
-        </div>
+        </section>
+
+        {/* Colonne droite : calendrier */}
+        <section className={styles.rightColumn}>
+          <div className={styles.timestotsWrapper}>
+            <h3 className={styles.sectionTitle}>Prendre Rendez-vous</h3>
+            <Timestots medecinId={doctor.id} />
+          </div>
+        </section>
       </div>
-    );
-  };
-
-  
+    </div>
+  );
+}

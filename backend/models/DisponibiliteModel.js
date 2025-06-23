@@ -31,3 +31,8 @@ export const getDisponibilitesParMedecin = async (medecinId) => {
         throw error; // Propager l'erreur pour la gestion dans le contrôleur
     }
 };
+export const ajouterDisponibilites = (disponibilites) => {
+    
+      return db('disponibilites').insert(disponibilites);
+   
+};

@@ -67,7 +67,7 @@ export default function BookingForm({ date, heureDebut, medecinId, user, onCance
       setError(validationError);
       return;
     }
-
+    
     try {
       await axios.post('http://localhost:5000/RendezVous', {
         medecinId,
@@ -75,7 +75,7 @@ export default function BookingForm({ date, heureDebut, medecinId, user, onCance
         date,
         heure: heureDebut,
       });
-
+      
       toast.success('Rendez-vous confirmé avec succès !');
       if (onConfirm) onConfirm();
     } catch (error) {
