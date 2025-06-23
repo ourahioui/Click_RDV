@@ -31,7 +31,7 @@ export default function Login({RegisterPath,LoginPath,SearchTable}) {
        console.log(decoded);
        localStorage.setItem("reloadAcceuille","true") ;
         console.log(localStorage.getItem("reloadAcceuille"))
-        navigate("/", { replace: true });
+        navigate("/profile", { replace: true });
         
         window.location.reload();
          

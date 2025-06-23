@@ -6,30 +6,21 @@ import { useNavigate } from 'react-router-dom';
 import TimeSlots from '../TImeSlots/TimeSlots'; // Import the TimeSlots component
 // Placeholder for TimeSlots component - to be implemented later
 
-
-
 const DoctorCard = ({ doctor }) => {
   const [showTimeSlots, setShowTimeSlots] = useState(false);
   const primaryColor = '#2AA7FF';
   const greenColor = '#28a745';
   const navigate = useNavigate();
 
-  // Gestion de l'image du médecin
-  const imageUrl =
-    doctor.photo
-      ? `http://localhost:5000/uploads/${doctor.photo}`
-      : doctor.img_url || doctor.imageUrl || 'https://via.placeholder.com/100';
-
   // Navigation vers la page du médecin
   const handleClick = () => {
     navigate('/medecin-generaliste', { state: doctor });
-
+  };
 
   // Handle image URL safely
   const getImageUrl = () => {
     if (doctor.photo) return `http://localhost:5000/uploads/${doctor.photo}`;
     return doctor.img_url || doctor.imageUrl || 'https://via.placeholder.com/100';
-
   };
 
   return (
@@ -42,24 +33,19 @@ const DoctorCard = ({ doctor }) => {
           style={{ cursor: 'pointer' }}
         >
           <img
-            src={imageUrl}
+            src={getImageUrl()}
             className={`img-fluid rounded-circle ${styles.doctorImage}`}
-            alt={`Dr. ${doctor.nom || doctor.name}`}
-        <div 
-          className={`col-md-2 d-flex align-items-center justify-content-center ${styles.imageContainer}`} 
-          onClick={handleClick}
-          style={{ cursor: 'pointer' }}
-        >
-          <img 
-            src={getImageUrl()} 
-            className={`img-fluid rounded-circle ${styles.doctorImage}`} 
-            alt={`Dr. ${doctor.nom} ${doctor.prenom}`} 
+            alt={`Dr. ${doctor.nom || doctor.name} ${doctor.prenom || ''}`}
           />
           <FontAwesomeIcon icon={faCheckCircle} className={styles.verifiedIcon} style={{ color: primaryColor }} />
         </div>
 
         {/* Details Column */}
-        <div className="col-md-7" onClick={handleClick} style={{ cursor: 'pointer' }}>
+        <div
+          className="col-md-7"
+          onClick={handleClick}
+          style={{ cursor: 'pointer' }}
+        >
           <div className="card-body">
             <h5 className={`card-title ${styles.doctorName}`}>
               Dr. {doctor.nom || doctor.name} {doctor.prenom}
@@ -67,14 +53,6 @@ const DoctorCard = ({ doctor }) => {
             <p className={`card-text text-muted ${styles.doctorSpecialty}`}>
               {doctor.specialite || doctor.specialty}
             </p>
-        <div 
-          className="col-md-7" 
-          onClick={handleClick}
-          style={{ cursor: 'pointer' }}
-        >
-          <div className="card-body">
-            <h5 className={`card-title ${styles.doctorName}`}>Dr. {doctor.nom} {doctor.prenom}</h5>
-            <p className={`card-text text-muted ${styles.doctorSpecialty}`}>{doctor.specialite}</p>
             <p className={`card-text text-muted small ${styles.doctorExperience}`}>
               {doctor.experience} années d'expérience au total
             </p>
@@ -83,8 +61,8 @@ const DoctorCard = ({ doctor }) => {
             </p>
             {doctor.rating && (
               <div className={`mt-2 ${styles.ratingContainer}`}>
-                <span 
-                  className={styles.ratingBadge} 
+                <span
+                  className={styles.ratingBadge}
                   style={{ backgroundColor: greenColor, color: 'white' }}
                 >
                   <FontAwesomeIcon icon={faThumbsUp} className="me-1" /> {doctor.rating}%
@@ -116,7 +94,7 @@ const DoctorCard = ({ doctor }) => {
           </button>
         </div>
       </div>
-      
+
       {showTimeSlots && (
         <div className={`card-footer bg-transparent border-top-0 ${styles.timeSlotsFooter}`}>
           <TimeSlots medecinId={doctor.id} />

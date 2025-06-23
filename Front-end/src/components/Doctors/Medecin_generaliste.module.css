@@ -1,0 +1,149 @@
+.doctorContainer {
+  padding: 30px;
+  background-color: #f9fafb;
+  min-height: 100vh;
+}
+
+.doctorLayout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+}
+
+.leftColumn {
+  flex: 1 1 350px;
+  max-width: 400px;
+}
+
+.rightColumn {
+  flex: 2 1 600px;
+  min-width: 320px;
+}
+
+.sectionTitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #1f2937;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 6px;
+}
+
+.doctorCard {
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  padding: 24px;
+}
+
+.doctorHeader {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.photoImg {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 12px;
+}
+
+.doctorName {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 8px 0;
+}
+
+.doctorSpecialty {
+  font-size: 16px;
+  color: #4b5563;
+}
+
+.doctorLocation,
+.doctorAvailability {
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.doctorInfo {
+  margin-top: 24px;
+}
+
+.infoSection {
+  margin-bottom: 18px;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  color: #111827;
+  margin-bottom: 6px;
+}
+
+.sectionIcon {
+  color: #2563eb;
+}
+
+.languageTag {
+  background-color: #e0f2fe;
+  color: #0369a1;
+  padding: 4px 8px;
+  border-radius: 6px;
+  margin-right: 6px;
+  font-size: 13px;
+}
+
+.tarifContent {
+  font-weight: 500;
+  color: #065f46;
+}
+
+.contactContent,
+.accessContent {
+  font-size: 14px;
+  color: #374151;
+}
+
+.icon {
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.greenDot,
+.purpleDot,
+.orangeDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.greenDot { background-color: #10b981; }
+.purpleDot { background-color: #8b5cf6; }
+.orangeDot { background-color: #f97316; }
+
+.timestotsWrapper {
+  background: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+/* ✅ Responsive */
+@media (max-width: 992px) {
+  .doctorLayout {
+    flex-direction: column;
+  }
+
+  .leftColumn,
+  .rightColumn {
+    max-width: 100%;
+    flex: 1 1 100%;
+  }
+
+  .doctorContainer {
+    padding: 16px;
+  }
+}

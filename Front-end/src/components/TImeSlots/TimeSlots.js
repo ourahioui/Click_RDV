@@ -7,28 +7,29 @@ import { AuthContext } from '../../contexts/AuthContext';
 import AppointmentForm from '../BookingForm/BookingForm';
 import { Modal } from 'react-bootstrap';
 import styles from './TimeSlots.module.css';
-import stylesModal from "./modal.module.css";
-
+import modalStyles from './modal.module.css';
 
 moment.locale('fr');
-
-export default function Disponibilites({ medecinId }) {
+export default function TimeSlots({ medecinId }) {
   const [data, setData] = useState({});
   const [startDate, setStartDate] = useState(moment().startOf('day'));
   const [selectedSlot, setSelectedSlot] = useState(null);
-  const { user } = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
+  const [expandedDays, setExpandedDays] = useState([]);
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const fetchDisponibilites = async () => {
     try {
       const res = await axios.get(`http://localhost:5000/api/disponibilites`, {
-        params: { medecinId }
+        params: { medecinId },
       });
       const normalizedData = {};
       for (const key in res.data) {
         const normalizedKey = moment(key).format('YYYY-MM-DD');
-        normalizedData[normalizedKey] = res.data[key];
+        normalizedData[normalizedKey] = res.data[key].sort((a, b) =>
+          a.heureDebut.localeCompare(b.heureDebut)
+        );
       }
       setData(normalizedData);
     } catch (error) {
@@ -38,39 +39,16 @@ export default function Disponibilites({ medecinId }) {
 
   useEffect(() => {
     if (medecinId) fetchDisponibilites();
-  },[]);
-
+  }, [medecinId, startDate]);
 
   useEffect(() => {
-    if (!user) {
-      setSelectedSlot(null);
-    }
+    if (!user) setSelectedSlot(null);
   }, [user]);
 
-  const getDisplayedDates = () => {
-    const dates = [];
-    for (let i = 0; i < 7; i++) {
-      dates.push(moment(startDate).add(i, 'days').format('YYYY-MM-DD'));
-    }
-    return dates;
-  };
-
-  const getUniqueHours = () => {
-    const all = Object.values(data).flat();
-    const heures = all.map(h => h.heureDebut);
-    return [...new Set(heures)].sort();
-  };
-
-  const nextWeek = () => {
-    setStartDate(prev => moment(prev).add(7, 'days'));
-  };
-
-  const prevWeek = () => {
-    const newDate = moment(startDate).subtract(7, 'days');
-    if (newDate.isSameOrAfter(moment().startOf('day'))) {
-      setStartDate(newDate);
-    }
-  };
+  const getDisplayedDates = () =>
+    Array.from({ length: 7 }, (_, i) =>
+      moment(startDate).add(i, 'days').format('YYYY-MM-DD')
+    );
 
   const handleBookAppointment = (date, heureDebut) => {
     if (!user) {
@@ -81,82 +59,131 @@ export default function Disponibilites({ medecinId }) {
     }
   };
 
+  const nextWeek = () => setStartDate(prev => moment(prev).add(7, 'days'));
+  const prevWeek = () => {
+    const newDate = moment(startDate).subtract(7, 'days');
+    if (newDate.isSameOrAfter(moment().startOf('day'))) {
+      setStartDate(newDate);
+    }
+  };
+
+  const toggleDayExpansion = (date) => {
+    setExpandedDays((prev) =>
+      prev.includes(date) ? prev.filter(d => d !== date) : [...prev, date]
+    );
+  };
+
   const displayedDates = getDisplayedDates();
-  const uniqueHours = getUniqueHours();
+
+  // ✅ Vérifie s'il existe au moins une disponibilité
+  const hasDisponibilites = displayedDates.some(date => (data[date] || []).length > 0);
 
   return (
-    <div className="container mt-4">
-      <div className={`card ${styles.timeSlotsCard}`}>
-        <div className={styles.cardHeader}>
-          <button
-            onClick={prevWeek}
-            className={styles.navButton}
-            disabled={startDate.isSameOrBefore(moment().startOf('day'))}
-          >
-            ←
-          </button>
-          <div className={styles.dayInfo}>
-            <div className={styles.dayLabel}>Disponibilités</div>
-            <div className={styles.dayDate}>
-              {moment(startDate).format('D MMMM')} - {moment(startDate).add(6, 'days').format('D MMMM')}
-            </div>
-          </div>
-          <button onClick={nextWeek} className={styles.navButton}>→</button>
-        </div>
-
-        <div className={styles.cardBody}>
-
-          <div className="table-responsive">
-            <table className={`table text-center ${styles.table}`}>
-              <thead className="table-light">
-                <tr>
-                  {displayedDates.map((date, index) => (
-                    <th key={index}>
-                      <div className="text-capitalize fw-bold">{moment(date).format('dddd')}</div>
-                      <div className="text-muted">{moment(date).format('D MMM')}</div>
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {uniqueHours.map((heure, rowIndex) => (
-                  <tr key={rowIndex}>
-                    {displayedDates.map((date, colIndex) => {
-                      const match = data[date]?.find(d => d.heureDebut === heure);
-                      return (
-                        <td key={colIndex}>
-                          {match ? (
-                            <button
-                              className="btn btn-success w-100 mb-2"
-                              onClick={() => handleBookAppointment(date, match.heureDebut)}
-                            >
-                              {match.heureDebut}
-                            </button>
-                          ) : (
-                            <div className={styles.noAvailability}>—</div>
-                          )}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <button
+          onClick={prevWeek}
+          className={styles.navButton}
+          disabled={startDate.isSameOrBefore(moment().startOf('day'))}
+        >
+          ←
+        </button>
+        <div className={styles.headerInfo}>
+          <div className={styles.title}>Disponibilités</div>
+          <div className={styles.dateRange}>
+            {moment(startDate).format('D MMM')} -{" "}
+            {moment(startDate).add(6, 'days').format('D MMM')}
           </div>
         </div>
+        <button onClick={nextWeek} className={styles.navButton}>→</button>
       </div>
 
-      {/* 💡 Modal pour afficher le formulaire */}
+      {!hasDisponibilites ? (
+        <div className={styles.noDisponibiliteMessage}>
+          Aucune disponibilité trouvée pour cette semaine. Veuillez réessayer plus tard.
+        </div>
+      ) : (
+        <div className={styles.tableContainer}>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                {displayedDates.map((date, i) => (
+                  <th key={i} className={styles.tableHeader}>
+                    <div className={styles.dayName}>{moment(date).format('dddd')}</div>
+                    <div className={styles.dayDate}>{moment(date).format('D MMM')}</div>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {[0, 1, 2, 3].map((rowIndex) => (
+                <tr key={rowIndex}>
+                  {displayedDates.map((date, colIndex) => {
+                    const slots = data[date] || [];
+                    const slot = slots[rowIndex];
+
+                    return (
+                      <td key={colIndex} className={styles.tableCell}>
+                        {slot ? (
+                          <button
+                            className={styles.timeSlot}
+                            onClick={() => handleBookAppointment(date, slot.heureDebut)}
+                          >
+                            {slot.heureDebut}
+                          </button>
+                        ) : (
+                          <div className={styles.emptySlot}>—</div>
+                        )}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+              <tr>
+                {displayedDates.map((date, i) => {
+                  const slots = data[date] || [];
+                  const isExpanded = expandedDays.includes(date);
+                  const extraSlots = isExpanded ? slots.slice(4) : [];
+
+                  return (
+                    <td key={i} className={styles.tableCell}>
+                      {isExpanded &&
+                        extraSlots.map((slot, j) => (
+                          <button
+                            key={j}
+                            className={`${styles.timeSlot} ${styles.extraSlot}`}
+                            onClick={() => handleBookAppointment(date, slot.heureDebut)}
+                          >
+                            {slot.heureDebut}
+                          </button>
+                        ))}
+                      {slots.length > 4 && (
+                        <button
+                          onClick={() => toggleDayExpansion(date)}
+                          className={styles.moreButton}
+                        >
+                          {isExpanded ? 'Voir moins' : 'Voir plus'}
+                        </button>
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      )}
+
       <Modal
         show={showModal}
         onHide={() => setShowModal(false)}
         centered
-        className={stylesModal.customModalWidth}
+        className={modalStyles.modal}
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Réserver un rendez-vous</Modal.Title>
+        <Modal.Header closeButton className={modalStyles.modalHeader}>
+          <Modal.Title className={modalStyles.modalTitle}>Réserver un rendez-vous</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className={modalStyles.modalBody}>
           {selectedSlot && (
             <AppointmentForm
               date={selectedSlot.date}
