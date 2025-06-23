@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {useNavigate,useLocation} from 'react-router-dom' ; 
-// import { sendCode, verifyCode } from '../services/api';
-// import './styles/Verification.css';
 import { jwtDecode } from 'jwt-decode';
 
 
@@ -11,12 +9,9 @@ export default function  SendVerificationCode  () {
    
     const location = useLocation();
     const formData = location.state;
-    // console.log("ibrahim",formData) ; 
-    // console.log("ibrahim",formData.nom) ; 
-
+    
     const navigate = useNavigate() ;
-    // const {nom,prenom, email,password,tel,role}  = formData ; 
-    // console.log(formData) ; 
+     
 
   useEffect(() => {
     const timer = countdown > 0 && setInterval(() => {
@@ -130,19 +125,16 @@ const handleSubmit = async (e) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        // body: JSON.stringify({ email }),
-         body: JSON.stringify({ email:formData.email }),
+          body: JSON.stringify({ email:formData.email }),
 
       });
       
-    //   const data = await response.json();
-   
+    
       
     } catch (err) {
       console.error(err);
        console.log("Erreur lors de la connexion au serveur") ; 
-      // setMessage("Erreur lors de la connexion au serveur");
-    }
+     }
   };
 
   return (
