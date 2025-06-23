@@ -103,7 +103,7 @@ const demandeAccepteeTemplate = (patientNom, date, Heure, medecineNom)=>{
   
   <div style="background-color: #E8F5E9; border-radius: 8px; padding: 15px; margin-bottom: 25px;">
     <p style="font-size: 18px; font-weight: bold; margin: 5px 0; color: #1B5E20;">
-      📅 ${date}
+      📅 ${formattedDaate}
     </p>
     <p style="font-size: 18px; font-weight: bold; margin: 5px 0; color: #1B5E20;">
       ⏰ ${Heure}
