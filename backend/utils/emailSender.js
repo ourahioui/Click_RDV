@@ -35,17 +35,17 @@ const verificationTemplate = (code) => `
   </div>
 `;
 // -----------------------------
-const MédecinMessageTemplate = (patientNom, Meassage) => `
+const MédecinMessageTemplate = (patientNom, Meassage,medecineNom,medecinePrenom,patientPrenom) => `
 <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 20px auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
   <!-- En-tête -->
   <div style="background-color: #1a73e8; padding: 20px; text-align: center;">
-    <h2 style="color: white; margin: 0; font-weight: 500;">Message de votre médecin</h2>
+    <h2 style="color: white; margin: 0; font-weight: 500;">Message de votre médecin ${medecineNom} ${medecinePrenom}</h2>
   </div>
   
   <!-- Corps du message -->
   <div style="padding: 30px;">
     <p style="font-size: 16px; line-height: 1.6; color: #202124; margin-top: 0;">
-      Bonjour <strong>${patientNom}</strong>,
+      Bonjour <strong>${patientNom} ${patientPrenom}</strong>,
     </p>
     
     <div style="background-color: #f8f9fa; border-radius: 8px; padding: 20px; margin: 20px 0; border-left: 4px solid #1a73e8;">
@@ -54,9 +54,7 @@ const MédecinMessageTemplate = (patientNom, Meassage) => `
       </p>
     </div>
     
-    <p style="font-size: 14px; color: #5f6368; margin-bottom: 25px;">
-      Ce message vous a été envoyé par votre équipe médicale.
-    </p>
+    
     
     <div style="border-top: 1px solid #e0e0e0; padding-top: 20px; text-align: center;">
       <p style="font-size: 14px; color: #5f6368; margin: 5px 0;">
@@ -75,7 +73,7 @@ const MédecinMessageTemplate = (patientNom, Meassage) => `
 </div>
 `;
 // ----------------------------------------------------------------
-const demandeAccepteeTemplate = (patientNom, date, Heure, medecineNom)=>{
+const demandeAccepteeTemplate = (patientNom, date, Heure, medecineNom,medecinePrenom)=>{
 
     
   const dateObj = new Date(date) ; 
@@ -98,7 +96,7 @@ const demandeAccepteeTemplate = (patientNom, date, Heure, medecineNom)=>{
   
   <p style="font-size: 16px; margin-bottom: 25px;">
     Bonjour ${patientNom},<br>
-    Votre demande de rendez-vous a été acceptée par le Dr ${medecineNom}.
+    Votre demande de rendez-vous a été acceptée par le Dr ${medecineNom} ${medecinePrenom}.
   </p>
   
   <div style="background-color: #E8F5E9; border-radius: 8px; padding: 15px; margin-bottom: 25px;">
@@ -119,29 +117,29 @@ const demandeAccepteeTemplate = (patientNom, date, Heure, medecineNom)=>{
  
 // -------------------------------------------
 
-function generateTemplate (subject,code,patientNom,Meassage,medecineNom,date,Heure)
+function generateTemplate (subject,code,patientNom,Meassage,medecineNom,date,Heure,medecinePrenom,patientPrenom)
 {
   if(subject==='Code de vérification')
   {
-    console.log('code de veri') ;
+     
     return verificationTemplate(code)
   }
   if(subject==='Message important du médecin')
   {
-    console.log('Message medecin') ;
-    return  MédecinMessageTemplate(patientNom,Meassage) ; 
+     
+    return  MédecinMessageTemplate(patientNom,Meassage,medecineNom,medecinePrenom,patientPrenom) ; 
   }
   if(subject==='demande de rendez vous est  accepter')
   {
      
-    return  demandeAccepteeTemplate(patientNom, date, Heure, medecineNom) ; 
+    return  demandeAccepteeTemplate(patientNom, date, Heure, medecineNom,medecinePrenom) ; 
   }
 } ;
 
 // Fonction d'envoi d'email
-const sendVerificationEmail = async (to=null,subject, patientNom=null,Meassage=null,date,Heure,medecineNom,code=null) => {
-
-      const Template = generateTemplate(subject,code,patientNom,Meassage,medecineNom,date,Heure) ; 
+const sendVerificationEmail = async (to=null,subject, patientNom=null,Meassage=null,date,Heure,medecineNom,code=null,medecinePrenom,patientPrenom) => {
+      
+      const Template = generateTemplate(subject,code,patientNom,Meassage,medecineNom,date,Heure,medecinePrenom,patientPrenom) ; 
       console.log("🧪 Sujet reçu:", subject);
         if (!Template) throw new Error("Template non généré, sujet invalide");
 

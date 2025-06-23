@@ -26,12 +26,7 @@ export default function MedecinRegister({isEdit,header,id})
     role:'register-medecin'
     });
     const [SubmitButton , setSubmitButton] = useState(false) ; 
-    // const [formDataPlus,setformDataPlus] = useState(
-    //   {
-    //     modesPaiement:"" ,
-    //     // languesParlees:""
-    //   }
-    // ) ;
+ 
     const [Specialites,setSpecialites] = useState([])  ; 
     const [Villes,setVilles] = useState([])  ;
     const navigate = useNavigate() ;
@@ -47,11 +42,11 @@ export default function MedecinRegister({isEdit,header,id})
       headers: {
         'Content-Type': 'application/json'
       },
-      // body: JSON.stringify({ id: id }),
+      
     });
     
     if (response.ok) {
-      const data = await response.json(); // ⬅️ await ici !
+      const data = await response.json();  
       setFormData(data);
     } else {
       console.error("Erreur lors de la récupération des données");
@@ -85,10 +80,7 @@ export default function MedecinRegister({isEdit,header,id})
     
     const handleChange = (e) => {
         const { name, value } = e.target;
-        // setFormData((prevData) => ({
-        //     ...prevData,
-        //     [name]: value
-        // }));
+       
         setFormData({...formData,[name]:value}) ;
          console.log(formData) ;
     };
@@ -105,17 +97,7 @@ export default function MedecinRegister({isEdit,header,id})
     console.log(formData.photo) ; 
     };
 
-// ------------------------------
  
-// const handleModesPaiementChange = (e) => {
-//     let selected = Array.from(e.target.selectedOptions).map(option => option.value);
-//     selected = selected.join(',') ; 
-//     setformDataPlus(prev => ({
-//       ...prev,
-//       [e.target.name]: selected
-//     }));
-//     console.log(formDataPlus) ;
-//   };
 // ----------------------------------------
 const handleLanguesChange = (e) => {
   const { value, checked } = e.target;
@@ -227,8 +209,7 @@ const handleMettreAjour = async (e)=>{
         formDataToSend.append('tarif',formData.tarif) ; 
         formDataToSend.append('modesPaiement',formData.modesPaiement)  ;
         formDataToSend.append('languesParlees',formData.languesParlees)  ;
-        //  alert(formData.password)
-
+ 
         const res = await fetch('http://localhost:5000/api/medecins/UpdateProfile' , {  
               method: 'POST',
                
@@ -256,8 +237,7 @@ const handleMettreAjour = async (e)=>{
            <>
         
           <div className={styles.header}>
-            {/* <MedicalIcon className={styles.logo} /> */}
-            <h1>Espace Santé Connectée</h1>
+             <h1>Espace Santé Connectée</h1>
             <p>{header?header:'Créez votre accès sécurisé'}</p>
           </div>
            {isEdit ? (
@@ -282,8 +262,7 @@ const handleMettreAjour = async (e)=>{
       accept="image/*"
       name="photo"
       ref={fileInputRef}
-      // onChange={handleFileChange}
-      style={{ display: 'none' }}
+       style={{ display: 'none' }}
        onChange={handleImageChange}
     />
   </>
@@ -295,8 +274,7 @@ const handleMettreAjour = async (e)=>{
 
           <form className={styles.form}>
             
-            {/* Form Fields */}
-            <div className={styles.formGroup}>
+             <div className={styles.formGroup}>
               <label>
                 <FiUser className={styles.inputIcon} />
                 <input
@@ -395,21 +373,7 @@ const handleMettreAjour = async (e)=>{
                         </label>
                       </div>
             </div>
-              {/* <select
-              multiple
                
-              name="modesPaiement"
-              value={formData.modesPaiement}
-
-              onChange={handleModesPaiementChange}
-            >
-              <option value="1">Carte bancaire</option>
-              <option value="2">Espèces</option>
-              <option value="3">Chèque</option>
-              <option value="4">PayPal</option>
-            </select>
-            formDataPlus.modesPaiement:{formData.modesPaiement}
-              */}
               <div>
                           <p>Languages parles</p>
                           <label>
@@ -509,11 +473,13 @@ const handleMettreAjour = async (e)=>{
       }
      
     </select>
+ 
     </div>
     <div className={styles.formGroup}>
       <label htmlFor="villeId" className={styles.label}>
         Ville
       </label>
+ 
      <select
       name="villeId"
       className={styles.inputField}

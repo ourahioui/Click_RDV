@@ -13,11 +13,11 @@ const RendezVousTab = ({ id ,TypeDemandes}) => {
           const response = await fetch(`http://localhost:5000/RendezVous/${TypeDemandes}/${id}`) ;
           if(response.ok)
             {
-              //  alert("ok")
+               
               const data = await response.json() ; 
                 setAppointments(data)  ;
-                // console.log(appointments) ;
-              
+                
+                
             } 
             else
             {
@@ -30,7 +30,7 @@ const RendezVousTab = ({ id ,TypeDemandes}) => {
   },[])
  
 // ---------------------------------------
-const handleAccepter = async(id,patientEmail,patientNom,date,Heure,medecineNom)=>{
+const handleAccepter = async(id,patientEmail,patientNom,date,Heure,medecineNom,medecinePrenom)=>{
  
     const response = await fetch(`http://localhost:5000/RendezVous/AccepterDemande/${id}`,{
         method: 'POST',
@@ -42,12 +42,14 @@ const handleAccepter = async(id,patientEmail,patientNom,date,Heure,medecineNom)=
          patientNom:patientNom ,
          date:date,
          Heure :Heure,
-         medecineNom:medecineNom
+         medecineNom:medecineNom , 
+         medecinePrenom:medecinePrenom, 
+
       })
     }) ;
           if(response.ok)
             {
-              
+              alert("accepter avcec success ") ; 
               const data  = appointments.filter((appointment)=>appointment.id !==id); 
               setAppointments(data)  ;
            
@@ -65,10 +67,10 @@ const handleRefuser = async(id)=>{
     const response = await fetch(`http://localhost:5000/RendezVous/RefuserDemande/${id}`) ;
           if(response.ok)
             {
-              
+              alert("refuser avec succes")
               const data  = appointments.filter((appointment)=>appointment.id !==id); 
               setAppointments(data)  ;
-         
+              
               
             } 
             else
@@ -97,10 +99,10 @@ const handleMessageChange = (appointmentId, value)=>{
     }
 
    })
-  //  console.log(messageInput[appointmentId] ) ; 
+  
 }
 // ------------------------------------------------------
-const handleSubmitMessage = async(appointmentId,patientEmail,patientNom)=>{
+const handleSubmitMessage = async(appointmentId,patientEmail,patientNom,patientPrenom,medecineNom,medecinePrenom)=>{
     setMessageInput({...messageInput,
       [appointmentId]:{
         ...messageInput[appointmentId] ,
@@ -116,7 +118,10 @@ const handleSubmitMessage = async(appointmentId,patientEmail,patientNom)=>{
         Message: messageInput[appointmentId].content , 
 
         patientNom:patientNom,
-        patientEmail:patientEmail 
+        patientPrenom:patientPrenom,
+        patientEmail:patientEmail ,
+        medecineNom:medecineNom,
+        medecinePrenom:medecinePrenom
       })
      }
      
@@ -190,7 +195,7 @@ const handleSubmitMessage = async(appointmentId,patientEmail,patientNom)=>{
                 
                 {TypeDemandes !== "DemandesAccepter" ?(
                   <div>
-                    <button onClick={() => handleAccepter(appointment.id,appointment.patientEmail,appointment.patientNom,appointment.date,appointment.Heure,appointment.medecineNom)}>Accepter</button>
+                    <button onClick={() => handleAccepter(appointment.id,appointment.patientEmail,appointment.patientNom,appointment.date,appointment.Heure,appointment.medecineNom,appointment.medecinePrenom)}>Accepter</button>
                     <button onClick={() => handleRefuser(appointment.id)}>Refuser</button>
                   </div>
                 ):
@@ -214,7 +219,7 @@ const handleSubmitMessage = async(appointmentId,patientEmail,patientNom)=>{
                       <div className="message-actions">
                         <button
                           className="send-btn"
-                          onClick={() => handleSubmitMessage(appointment.id,appointment.patientEmail,appointment.patientNom)}
+                          onClick={() => handleSubmitMessage(appointment.id,appointment.patientEmail,appointment.patientNom,appointment.patientPrenom,appointment.medecineNom,appointment.medecinePrenom)}
                           disabled={messageInput[appointment.id].sending}
                         >
                           {messageInput[appointment.id].sending ? 'Envoi...' : 'Envoyer'}
@@ -246,3 +251,4 @@ const handleSubmitMessage = async(appointmentId,patientEmail,patientNom)=>{
 
 export default RendezVousTab
 
+ 

@@ -93,7 +93,7 @@ const handleSubmit = async (e)=>{
               } catch (err) {
                 console.error(err);
                 console.log("Erreur lors de la connexion au serveur") ; 
-                // setMessage("Erreur lors de la connexion au serveur");
+                 
               }
             }
      
@@ -136,12 +136,10 @@ const handleChange =(e)=>{
 
 return (
     <div className={styles.container}>
-       {/* { showVerification ? (
-        <SendVerificationCode formData={formData} />
-       ):  */}
+       
        <>
       <div className={styles.header}>
-        {/* <MedicalIcon className={styles.logo} /> */}
+         
         <h1>Espace Santé Connectée</h1>
         <p>{header?header:'Créez votre accès sécurisé'}</p>
       </div>
@@ -245,7 +243,7 @@ return (
                         minLength="8"
                         name="password"
                         onChange={handleChange}
-                        //  value={formData.password}
+                        
                       />
                     </label>
                   </div>
@@ -284,7 +282,8 @@ return (
         </div>
       </form>
       </>
-{/* } */}
+ 
     </div>
   );
 }
+ 

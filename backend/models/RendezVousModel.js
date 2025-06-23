@@ -46,7 +46,8 @@ const RendezVousModel = {
     'patient.prenom as patientPrenom',
     'patient.email as patientEmail' , 
     'patient.tel as tel' , 
-    'medecins.nom as medecineNom'
+    'medecins.nom as medecineNom' ,
+    'medecins.prenom as medecinePrenom'
   )
   .where({ medecinId: id ,statut:'EnAttente'});
 
@@ -55,13 +56,16 @@ const RendezVousModel = {
   {
   return db('rendez_vous')
   .join('patient', 'rendez_vous.patientId', '=', 'patient.id')
+  .join('medecins','rendez_vous.medecinId','=','medecins.id')
   .select(
     'rendez_vous.*',
     'patient.nom as patientNom',
     'patient.prenom as patientPrenom',
     'patient.email as patientEmail' , 
-    'patient.tel as tel'
-  )
+    'patient.tel as tel',
+   'medecins.nom as medecineNom' ,
+    'medecins.prenom as medecinePrenom'
+  ) 
   .where({ medecinId: id ,statut:'Accepte'});
   } , 
 

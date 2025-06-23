@@ -1,7 +1,6 @@
 import  sendVerificationEmail  from '../utils/emailSender.js';
 import  generateNumericCode  from '../utils/generateCode.js';
-// import Code from '../models/codeModel.js'; 
-import mysql from 'mysql';
+ import mysql from 'mysql';
 import bcrypt from 'bcrypt' ;
 import jwt from 'jsonwebtoken' ; 
 import dotenv from 'dotenv' ; 
@@ -41,18 +40,7 @@ const storeCode = (email, code) => {
        connection.query("delete from codes where email=?",[email]) ;
 }
 
-// export   async function sendVerificationCode  (req, res){
  
-//     const { email } = req.body;
-   
-//     const codegenerated = generateNumericCode(); // Génère un code à 6 chiffres
-//     deleteCodeFromDb(email)
-//     await storeCode( email , codegenerated)
-//     const subject='Code de vérification' ; 
-//     await sendVerificationEmail(email,codegenerated,subject);
-//   return res.status(201).json(codegenerated) ; 
-   
-// };
 export async function sendVerificationCode(req, res) {
   try {
     const { email } = req.body;
@@ -101,12 +89,7 @@ export function verifyCode(req, res) {
       return res.status(400).json({ error: 'Code invalide' });
     }
     
-    // const now = new Date();
-    // const expiresAt = new Date(results[0].expires_at);
     
-    // if (expiresAt < now) {
-    //   return res.status(400).json({ error: 'Code expiré' });
-    // }
     
     // Si tout est bon
     res.json({ success: results });
@@ -187,8 +170,7 @@ export async function LoginPatient(req, res) {
     
     const data = results[0];
     const isMatch = await ComparePassword(password, data.password);
-    // const isMatch = await ComparePassword(password, patient.motDePasse);
-
+ 
     if (!isMatch) {
       return res.status(401).json({ error: "Email ou mot de passe incorrect" });
     }
@@ -196,7 +178,6 @@ export async function LoginPatient(req, res) {
     const token = jwt.sign(
       { email: data.email, id: data.id ,role:SearchTable},process.env.JWT_SECRET,{ expiresIn: "1h" }
     );
-    // const token = jwt.sign({ email, id: results.insertId ,role:'medecins'}, process.env.JWT_SECRET, { expiresIn: "1h" });
-    return res.status(200).json({ email,token });
+     return res.status(200).json({ email,token });
   });
 }

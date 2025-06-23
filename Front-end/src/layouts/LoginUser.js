@@ -10,8 +10,7 @@ export default function Login({RegisterPath,LoginPath,SearchTable}) {
   const navigate = useNavigate() ; 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: authentification ici
-    // console.log("Email:", email, "Mot de passe:", password);
+     
     const response = await fetch("http://localhost:5000/auth/"+LoginPath,{
       method:"POST" , 
       headers: {

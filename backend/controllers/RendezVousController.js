@@ -21,12 +21,12 @@ const RendezVousController = {
     async AccepterDemande(req,res)
     {
         const id = req.params.id  ;
-        const {patientEmail,patientNom,date,Heure,medecineNom} = req.body ; 
+        const {patientEmail,patientNom,patientPrenom,date,Heure,medecineNom,medecinePrenom} = req.body ; 
         const Message= null ;
         const code = null; 
         const subject = 'demande de rendez vous est  accepter'  ; 
         await  RendezVousModel.AccepterDemande(id)
-         const result = sendVerificationEmail(patientEmail,subject,patientNom,Message,date,Heure,medecineNom,code) ; 
+         const result = sendVerificationEmail(patientEmail,subject,patientNom,Message,date,Heure,medecineNom,code,medecinePrenom,patientPrenom) ; 
 
         res.json(result)  ;
     } , 
@@ -38,9 +38,13 @@ const RendezVousController = {
     },
     async SendMessageToPatient(req,res)
     {
-       const {patientEmail,patientNom,Message} = req.body ;
+       const {patientEmail,patientNom,patientPrenom,Message,medecineNom,medecinePrenom} = req.body ;
        const subject = 'Message important du médecin'  ; 
-       const result = await sendVerificationEmail(patientEmail,subject,patientNom,Message) ; 
+       const date = null ;
+       const Heure = null ; 
+       const code = null  ;
+
+       const result = await sendVerificationEmail(patientEmail,subject,patientNom,Message,date,Heure,medecineNom,code,medecinePrenom,patientPrenom) ; 
        return res.json(result) ; 
     }   ,
 getAll: async (req, res) => {
@@ -76,7 +80,7 @@ create: async (req, res) => {
         await trx('disponibilites')
             .where({ medecinId, date, heureDebut: heure })
             .del();
-
+           
         // Confirmer les opérations
         await trx.commit();
 
