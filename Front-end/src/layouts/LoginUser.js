@@ -30,11 +30,12 @@ export default function Login({RegisterPath,LoginPath,SearchTable}) {
        const decoded = jwtDecode(token); 
        console.log(decoded);
        localStorage.setItem("reloadAcceuille","true") ;
-        console.log(localStorage.getItem("reloadAcceuille"))
+        console.log(localStorage.getItem("reloadAcceuille"));
+
         navigate("/profile", { replace: true });
         
         window.location.reload();
-         
+
             
     }
     else

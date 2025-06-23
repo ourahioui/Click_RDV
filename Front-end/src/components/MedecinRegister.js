@@ -490,28 +490,15 @@ const handleMettreAjour = async (e)=>{
             </label>
             </div>
             <div className={styles.formGroup}>
-          <label>
-    <select
+                          <label htmlFor="specialiteId" className={styles.label}>
+                            spécialité
+                          </label>
+     <select
       name="specialiteId"
       className={styles.inputField}
       onChange={handleChange}
-      required 
+      required
       value={formData.specialiteId}
-    >
-       <option value=""> Sélectionnez une spécialité</option>
-      {
-        Specialites.map((e)=>(
-             <option value={e.id}>{e.specialite}</option>
-        ))
-      }
-     
-    </select>
-     <select
-      name="villeId"
-      className={styles.inputField}
-      onChange={handleChange}
-      required 
-      value={formData.villeId}
     >
  
        <option value=""> Sélectionnez une spécialité</option>
@@ -522,6 +509,11 @@ const handleMettreAjour = async (e)=>{
       }
      
     </select>
+    </div>
+    <div className={styles.formGroup}>
+      <label htmlFor="villeId" className={styles.label}>
+        Ville
+      </label>
      <select
       name="villeId"
       className={styles.inputField}
@@ -535,10 +527,9 @@ const handleMettreAjour = async (e)=>{
              <option value={e.id}>{e.ville}</option>
         ))
       }
-     
     </select>
-  </label>
-</div>
+    </div>
+  
 {!isEdit?(<div className={styles.formGroup}>
         <label htmlFor="photo" className={styles.customFileLabel}>
           {formData.photo ? formData.photo.name : "Choisir une photo..."}
