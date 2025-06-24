@@ -1,7 +1,7 @@
 // src/components/LoginForm.jsx
 import React, { useState } from "react";
 import { Link ,useNavigate} from "react-router-dom";
-import styles from "../components/LoginForm.module.css";
+import styles from "./LoginForm.module.css";
 import { jwtDecode } from 'jwt-decode';
 
 export default function Login({RegisterPath,LoginPath,SearchTable}) {

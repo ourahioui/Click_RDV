@@ -1,5 +1,5 @@
 
-import  PatientRegisterForm from '../components/PatientRegisterForm'
+import  PatientRegisterForm from '../PatientRegisterForm/PatientRegisterForm'
 export default function ProfilePatient({id})
 {
     return (

@@ -1,6 +1,6 @@
 import { useState,useEffect } from 'react'
-import { FiPlus, FiEdit, FiTrash2, FiEye,FiSend,FiX } from 'react-icons/fi'
-import '../components/rendez-vous.css' ;
+import {  FiSend,FiX } from 'react-icons/fi'
+import './rendez-vous.css' ;
 const RendezVousTab = ({ id ,TypeDemandes}) => {
   const [appointments, setAppointments] = useState([]) ; 
   const [ShowMessageInput,setShowMessageInput] = useState(false) ;

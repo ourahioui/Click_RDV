@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import SearchSection from './SearchSection/SearchSection';
-import DoctorCard from './DoctorCard/DoctorCard';
-import Pagination from './Pagination/Pagination';
+import SearchSection from '../SearchSection/SearchSection';
+import DoctorCard from '../DoctorCard/DoctorCard';
+import Pagination from '../Pagination/Pagination';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import styles from './DoctorPage.module.css';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import {useSelector} from 'react-redux' ; 
-import TimeSlots from './TImeSlots/TimeSlots' ;
+import TimeSlots from '../TImeSlots/TimeSlots' ;
 import axios from 'axios';
 
 function DoctorPage() {

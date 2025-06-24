@@ -1,6 +1,6 @@
 
 
-import MedecinRegister from './MedecinRegister' ; 
+import MedecinRegister from '../MedecinRegister/MedecinRegister' ; 
 export default function ProfileMedecin({id})
 {
     return (

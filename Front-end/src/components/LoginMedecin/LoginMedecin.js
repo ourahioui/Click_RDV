@@ -1,7 +1,6 @@
-
-// UserRegistrationForm.jsx
-import React, { useState } from 'react';
-import LoginUser from '../layouts/LoginUser' ; 
+ 
+ 
+import LoginUser from '../LoginUser/LoginUser' ; 
 export default function LoginMedecin()
 {
     

@@ -1,11 +1,9 @@
 // UserRegistrationForm.jsx
 import React, { useState } from 'react';
 import styles from './RegisterFormUser.module.css';
-// import { ReactComponent as MedicalIcon } from './medical-icon.svg';
-import { FiUser, FiMail, FiPhone, FiLock, FiCalendar, FiArrowRight } from 'react-icons/fi';
+ import { FiUser, FiMail, FiPhone, FiLock, FiCalendar, FiArrowRight } from 'react-icons/fi';
 import {useNavigate} from 'react-router-dom' ;
-// import SendVerificationCode from '../components/SendVerificationCode.js' ; 
-import SendVerificationCode from './SendVerificationCode.js' ; 
+ 
 import {useEffect} from 'react' ;
 
 export default function PatientRegisterForm({isEdit,header,id}) {
@@ -47,7 +45,7 @@ export default function PatientRegisterForm({isEdit,header,id}) {
 
 function validateForm()
 {
-        if(!formData.nom || !formData.prenom || !formData.email || !formData.password ||!formData.tel )
+        if(!formData.nom || !formData.prenom || !formData.email  ||!formData.tel )
         {
           alert("Veuillez remplir tous les champs.");
           return false ; 
@@ -65,6 +63,12 @@ function validateForm()
           alert("Numéro de téléphone invalide (10 chiffres requis)."); 
           return false ; 
         }
+        if(!formData.password.startsWith('$2b$') && (formData.password.length<8 || formData.password.length>20))
+          {
+                alert("Le mot de passe doit contenir entre 8 et 20 caractères.");
+                return false ; 
+                
+          }
         
         return true ;
 
