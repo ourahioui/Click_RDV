@@ -103,7 +103,7 @@ const handleSubmit = async (e) => {
   
       alert("Compte créé avec succès") ; 
       localStorage.setItem("reloadAcceuille","true") ;
-      navigate("/", { replace: true });
+      navigate("/Profile", { replace: true });
       window.location.reload();
       navigate("/") ; 
     }
