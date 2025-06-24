@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { FiMail, FiUser, FiCalendar, FiLogOut } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
-import ProfileMedecin from '../components/ProfileMedecin.js';
-import RendezVousTab from './RendezVousTab.jsx';
-import RendezVousAVenire from '../components/RendezVousAVenire.js';
+import ProfileMedecin from '../ProfileMedecin/ProfileMedecin.js';
+import RendezVousTab from '../RendezVousTab/RendezVousTab.jsx';
+import RendezVousAVenire from '../RendezVousAVenire/RendezVousAVenire.js';
 import styles from './MedicalProfileTabs.module.css';
-import DefinirDisponibilites from './Definirdisponibilites/Definirdisponibilites.js';
+import DefinirDisponibilites from '../Definirdisponibilites/Definirdisponibilites.js';
 import { toast } from 'react-toastify';
 
 const ProfilMedicalTabs = ({ id }) => {

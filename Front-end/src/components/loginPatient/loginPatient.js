@@ -1,5 +1,5 @@
  
- import LoginUser from '../layouts/LoginUser' ; 
+ import LoginUser from '../LoginUser/LoginUser' ; 
 
 export default function LoginPatient() {
  

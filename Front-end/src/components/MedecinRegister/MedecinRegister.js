@@ -1,12 +1,10 @@
-// UserRegistrationForm.jsx
+ 
 import React, { useState,useEffect,useRef } from 'react';
-import styles from './RegisterFormUser.module.css';
-// import { ReactComponent as MedicalIcon } from './medical-icon.svg';
-import { FiUser, FiMail, FiPhone, FiLock, FiCalendar, FiArrowRight } from 'react-icons/fi';
+import styles from '../PatientRegisterForm/RegisterFormUser.module.css';
+import { FiUser, FiMail, FiPhone, FiLock, FiArrowRight } from 'react-icons/fi';
 import {useNavigate} from 'react-router-dom' ;
-import { useDispatch , useSelector} from "react-redux"  ; 
-// import SendVerificationCode from '../components/SendVerificationCode.js' ; 
-import SendVerificationCode from './SendVerificationCode.js' ; 
+ 
+ 
 // ------------------------------------------------------------
 
 export default function MedecinRegister({isEdit,header,id})

@@ -11,16 +11,16 @@ import Layout from './layouts/layout';
 // Import des pages/sections
 import HomePage from './components/HomePage';
 import Faq from './components/Faq/Faq';
-import DoctorsPage from './components/DoctorsPage';
-import PatientRegisterForm from './components/PatientRegisterForm';
-import MedecinRegester from './components/MedecinRegister'; 
-import SendVerificationCode from './components/SendVerificationCode';
-import LoginMedecin from './components/LoginMedecin';
-import LoginPatient from './components/loginPatient';
-import ProfilePatient from './components/ProfilePatient';
-import ProfileMedecin from './components/ProfileMedecin';
+import DoctorsPage from './components/DoctorPage/DoctorsPage';
+import PatientRegisterForm from './components/PatientRegisterForm/PatientRegisterForm.js';
+import MedecinRegester from './components/MedecinRegister/MedecinRegister.js'; 
+import SendVerificationCode from './components/SendVerificationCode/SendVerificationCode.js';
+import LoginMedecin from './components/LoginMedecin/LoginMedecin.js';
+import LoginPatient from './components/loginPatient/loginPatient.js';
+import ProfilePatient from './components/ProfilePatient/ProfilePatient.js';
+import ProfileMedecin from './components/ProfileMedecin/ProfileMedecin.js';
 import Medecin_generaliste from './components/Doctors/Medecin_generaliste';
-import ProfilMedicalTabs from './components/MedicalProfileTabs.jsx';
+import ProfilMedicalTabs from './components/MedicalProfileTabs/MedicalProfileTabs.jsx';
 import Mes_rendez_vous from './components/mes_rendez_vous/mes_rendez_vous.js';
 
 function App() {

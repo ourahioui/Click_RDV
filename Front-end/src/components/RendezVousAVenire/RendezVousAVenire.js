@@ -1,5 +1,5 @@
 
-import RendezVousTab from '../components/RendezVousTab' ;
+import RendezVousTab from '../RendezVousTab/RendezVousTab' ;
 
 export default function RendezVousAVenire({id})
 {
