@@ -120,7 +120,7 @@ const handleMettreAjour = async (e)=>{
       if(response.ok)
       {
         alert("mettre a jour avec success" ) ; 
-         window.location.reload() ; 
+        window.location.reload() ; 
       }
       else
       {
